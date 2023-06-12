@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Rabbit;
 
-use App\Models\Weaning;
+use App\Models\Rabbit;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Rabbit\RabbitResource;
 
-class WeaningController extends Controller
+class RabbitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,15 +36,15 @@ class WeaningController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Weaning $weaning)
+    public function show(string $id)
     {
-        //
+        return new RabbitResource(Rabbit::with('weaning', 'adoption', 'whelping')->findOrFail($id));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Weaning $weaning)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +52,7 @@ class WeaningController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Weaning $weaning)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +60,7 @@ class WeaningController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Weaning $weaning)
+    public function destroy(string $id)
     {
         //
     }

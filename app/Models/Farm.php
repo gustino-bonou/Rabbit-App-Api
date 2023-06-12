@@ -10,12 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Farm extends Model
 {
     use HasFactory;
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function rabbits(): HasMany
     {
         return $this->hasMany(Rabbit::class);
@@ -36,5 +30,10 @@ class Farm extends Model
     public function adoptions(): HasMany
     {
         return $this->hasMany(Adoption::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

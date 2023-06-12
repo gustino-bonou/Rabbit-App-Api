@@ -15,9 +15,8 @@ class RabbitIndexController extends Controller
      */
     public function __invoke(Request $request): RabbitCollectionResponse
     {
-
         return new RabbitCollectionResponse(
-            collection: $request->user()->farms()->first()
+            collection: $request->user()->farm
                 ->rabbits()
                 ->with(['weaning', 'whelping', 'adoption'])
                 ->paginate(10)

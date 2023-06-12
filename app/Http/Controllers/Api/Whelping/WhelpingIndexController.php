@@ -14,7 +14,7 @@ class WhelpingIndexController extends Controller
     public function __invoke(Request $request)
     {
          return new WhelpingCollection(
-            resource: $request->user()->farms()->first()->whelpings()
+            resource: $request->user()->farm->whelpings()
                 ->with([
                     'pairing',
                     'rabbits',

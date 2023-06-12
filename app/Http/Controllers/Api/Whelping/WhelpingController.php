@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Whelping;
 
-use App\Models\Rabbit;
 use Illuminate\Http\Request;
-use App\Responses\Rabbit\RabbitCollectionResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Rabbit\RabbitResource;
+use App\Http\Resources\Whelping\WhelpingResource;
+use App\Models\Whelping;
 
-class RabbitController extends Controller
+class WhelpingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,23 +31,21 @@ class RabbitController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Rabbit $rabbit)
+    public function show(string $id)
     {
-        return new RabbitCollectionResponse(
-            collection: $rabbit
-        );
+        return new WhelpingResource(Whelping::with('rabbits', 'pairing')->findOrFail($id));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Rabbit $rabbit)
+    public function edit(string $id)
     {
         //
     }
@@ -53,7 +53,7 @@ class RabbitController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Rabbit $rabbit)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -61,7 +61,7 @@ class RabbitController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Rabbit $rabbit)
+    public function destroy(string $id)
     {
         //
     }

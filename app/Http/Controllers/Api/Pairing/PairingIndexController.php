@@ -15,7 +15,7 @@ class PairingIndexController extends Controller
     {
 
         return new PairingCollection(
-            resource: $request->user()->farms()->first()->pairings()
+            resource: $request->user()->farm->pairings()
                 ->with([
                     'mother',
                     'father',

@@ -14,7 +14,7 @@ class WeaningIndexController extends Controller
     public function __invoke(Request $request)
     {
         return new WeaningCollection(
-            resource: $request->user()->farms()->first()->weanings()
+            resource: $request->user()->farm->weanings()
                 ->with([
                     'whelping',
                     'rabbits',

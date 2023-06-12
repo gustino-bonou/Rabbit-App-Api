@@ -1,11 +1,13 @@
 <?php
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Rabbit;
+use App\Models\Pairing;
 use App\Models\Weaning;
 use Nette\Utils\Random;
 use App\Models\Adoption;
-use App\Models\Pairing;
+use App\Models\Farm;
 use App\Models\Whelping;
 use Illuminate\Support\Facades\Route;
 
@@ -24,14 +26,18 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 }); */
 Route::get('/', function () {
-    $rabbits = Adoption::all();
-    foreach($rabbits as $rabbit) {
-        $rabbit->farm()->associate(User::all()->first()->farms()->first());
+    /* $rabbits = Rabbit::all();
+
+    $datas = Adoption::all()->pluck('id')->toArray();
+    foreach($rabbits as $rabbit )
+    {
+        $key = array_rand(Adoption::limit(20)->pluck('id')->toArray());
+        $rabbit->adoption_id = null;
 
         $rabbit->save();
-    }
+    } */
 
-    dd('ok');
+    
 });
 
 Route::get(

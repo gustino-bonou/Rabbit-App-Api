@@ -14,7 +14,8 @@ class AdoptionIndexController extends Controller
     public function __invoke(Request $request)
     {
         return new AdoptionCollection(
-            resource: $request->user()->farms()->first()->adoptions()
+            resource: $request->user()->farm
+                ->adoptions()
                 ->with([
                     'rabbits',
                     'adoptiveMother',

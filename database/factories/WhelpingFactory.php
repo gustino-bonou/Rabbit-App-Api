@@ -20,9 +20,7 @@ class WhelpingFactory extends Factory
         return [
             'whelping_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'observation' => $this->faker->sentence(),
-            'pairing_id' => function () {
-            return $this->faker->randomElement(Pairing::all()->pluck('id'));
-        },
+            
         ];
     }
 }

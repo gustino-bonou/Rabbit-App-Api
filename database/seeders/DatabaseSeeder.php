@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
     {
        /*  Whelping::factory()->count(50)->create(); */
 
-    Farm::factory()->count(2)->create();
+    Adoption::factory()->count(2)->create();
+
     }
 
 

@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Adoption;
 
-use App\Models\Pairing;
+use App\Models\Adoption;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Adoption\AdoptionResource;
 
-class PairingController extends Controller
+class AdoptionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,15 +36,15 @@ class PairingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pairing $pairing)
+    public function show(string $id, Request $request)
     {
-        //
+        return new AdoptionResource(Adoption::where('farm_id', $request->user()->farm->id)->with('rabbits', 'adoptiveMother', 'whelping')->findOrFail($id));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pairing $pairing)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +52,7 @@ class PairingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pairing $pairing)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +60,7 @@ class PairingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pairing $pairing)
+    public function destroy(string $id)
     {
         //
     }

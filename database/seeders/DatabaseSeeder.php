@@ -3,7 +3,17 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Adoption;
+use App\Models\Farm;
+use App\Models\Pairing;
+use App\Models\Rabbit;
+use App\Models\User;
+use App\Models\Weaning;
+use App\Models\Whelping;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
+use Database\Factories\RabbitFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +22,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+       /*  Whelping::factory()->count(50)->create(); */
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+    Farm::factory()->count(2)->create();
     }
+
+
 }
+
+
+

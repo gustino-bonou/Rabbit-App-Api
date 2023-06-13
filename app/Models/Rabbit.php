@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Str;
 
 class Rabbit extends Model
 {
@@ -54,6 +55,11 @@ class Rabbit extends Model
     public function whelping(): BelongsTo
     {
         return $this->belongsTo(Whelping::class);
+    }
+
+    public function getSlug(): string 
+    {
+        return Str::slug($this->description);
     }
 
 }

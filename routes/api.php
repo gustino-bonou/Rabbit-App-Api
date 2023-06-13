@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Pairing\PairingIndexController;
 use App\Http\Controllers\Api\Weaning\WeaningIndexController;
 use App\Http\Controllers\Api\Adoption\AdoptionIndexController;
 use App\Http\Controllers\Api\Pairing\PairingController;
+use App\Http\Controllers\Api\Rabbit\StoreRabbitController;
 use App\Http\Controllers\Api\User\RegistreUserController;
 use App\Http\Controllers\Api\Weaning\WeaningController;
 use App\Http\Controllers\Api\Whelping\WhelpingController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
 
 Route::post('register-user', RegistreUserController::class)->name('user.register');
 Route::middleware('auth:sanctum')->group(static function(): void {
+    
 
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -38,15 +40,19 @@ Route::middleware('auth:sanctum')->group(static function(): void {
     $idRegex = '[0-9]+';
     $slugRegex = '[0-9a-zA-Z\-]+';
 
-    Route::get('/', RabbitIndexController::class)->name('rabbits.index');
-    Route::get('/{rabbit}',[ RabbitController::class, 'show'])->name('show')->where([
-        'rabbit' => $idRegex
-    ]);
+    Route::post('/store', StoreRabbitController::class)->name('store');
+    Route::get('/', RabbitIndexController::class)->name('index');
+
     
+
+/*     Route::get('/{rabbit}',[ RabbitController::class, 'show'])->name('show');
+ */    
     });
     Route::prefix('pairings')->as('pairings.')->group(static function (): void {
         $idRegex = '[0-9]+';
         $slugRegex = '[0-9a-zA-Z\-]+';
+
+        
 
     Route::get('/', PairingIndexController::class)->name('pairings.index');
     Route::get('/{pairing}',[ PairingController::class, 'show'])->name('show')->where([

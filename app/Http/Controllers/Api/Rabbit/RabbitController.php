@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api\Rabbit;
 
+use App\Actions\Rabbit\StoreRabbitAction;
+use App\Http\DataTransfertObject\Rabbit\RabbitData;
 use App\Models\Rabbit;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RabbitRequest;
 use App\Http\Resources\Rabbit\RabbitResource;
 
 class RabbitController extends Controller
@@ -14,7 +17,7 @@ class RabbitController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -28,17 +31,20 @@ class RabbitController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RabbitRequest $request)
     {
-        //
+
+        
+  
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Rabbit $rabbit, )
     {
-        return new RabbitResource(Rabbit::with('weaning', 'adoption', 'whelping')->findOrFail($id));
+
+        return new RabbitResource(Rabbit::with('weaning', 'adoption', 'whelping')->find($rabbit->id));
     }
 
     /**

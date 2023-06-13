@@ -8,10 +8,14 @@ use App\Http\Controllers\Api\Rabbit\RabbitIndexController;
 use App\Http\Controllers\Api\Pairing\PairingIndexController;
 use App\Http\Controllers\Api\Weaning\WeaningIndexController;
 use App\Http\Controllers\Api\Adoption\AdoptionIndexController;
+use App\Http\Controllers\Api\Adoption\StoreAdoptionController;
 use App\Http\Controllers\Api\Pairing\PairingController;
+use App\Http\Controllers\Api\Pairing\StorePairingController;
 use App\Http\Controllers\Api\Rabbit\StoreRabbitController;
 use App\Http\Controllers\Api\User\RegistreUserController;
+use App\Http\Controllers\Api\Weaning\StoreWeaningController;
 use App\Http\Controllers\Api\Weaning\WeaningController;
+use App\Http\Controllers\Api\Whelping\StoreWhelpingController;
 use App\Http\Controllers\Api\Whelping\WhelpingController;
 use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
 
@@ -40,13 +44,16 @@ Route::middleware('auth:sanctum')->group(static function(): void {
     $idRegex = '[0-9]+';
     $slugRegex = '[0-9a-zA-Z\-]+';
 
-    Route::post('/store', StoreRabbitController::class)->name('store');
     Route::get('/', RabbitIndexController::class)->name('index');
-
+    Route::get('/{rabbit}',[ RabbitController::class, 'show'])->name('show')->where([
+        'rabbit' => $idRegex
+    ]);
+    Route::post('/store', StoreRabbitController::class)->name('store');
     
-
-/*     Route::get('/{rabbit}',[ RabbitController::class, 'show'])->name('show');
- */    
+    Route::get('/{rabbit}/children',[ RabbitController::class, 'getFemaleRabbitChildren'])->name('female.children')->where([
+        'rabbit' => $idRegex
+    ]);
+   
     });
     Route::prefix('pairings')->as('pairings.')->group(static function (): void {
         $idRegex = '[0-9]+';
@@ -55,6 +62,7 @@ Route::middleware('auth:sanctum')->group(static function(): void {
         
 
     Route::get('/', PairingIndexController::class)->name('pairings.index');
+    Route::post('/store', StorePairingController::class)->name('store');
     Route::get('/{pairing}',[ PairingController::class, 'show'])->name('show')->where([
         'pairing' => $idRegex
     ]);
@@ -65,9 +73,11 @@ Route::middleware('auth:sanctum')->group(static function(): void {
         $slugRegex = '[0-9a-zA-Z\-]+';
 
     Route::get('/', WeaningIndexController::class)->name('weanings.index');
+    
     Route::get('/{weaning}',[ WeaningController::class, 'show'])->name('show')->where([
         'weaning' => $idRegex
     ]);
+    Route::post('/store', StoreWeaningController::class)->name('store');
     });
 
     Route::prefix('whelpings')->as('whelpings.')->group(static function (): void {
@@ -78,6 +88,7 @@ Route::middleware('auth:sanctum')->group(static function(): void {
     Route::get('/{whelping}',[ WhelpingController::class, 'show'])->name('show')->where([
         'whelping' => $idRegex
     ]);
+    Route::post('/store', StoreWhelpingController::class)->name('store');
 
     });
     Route::prefix('adoptions')->as('adoptions.')->group(static function (): void {  
@@ -88,6 +99,8 @@ Route::middleware('auth:sanctum')->group(static function(): void {
     Route::get('/{adoption}',[ AdoptionController::class, 'show'])->name('show')->where([
         'adoption' => $idRegex
     ]);
+
+    Route::post('/store', StoreAdoptionController::class)->name('store');
 
     });
 });

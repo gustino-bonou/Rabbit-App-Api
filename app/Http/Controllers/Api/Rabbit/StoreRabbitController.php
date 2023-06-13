@@ -15,7 +15,6 @@ class StoreRabbitController extends Controller
      */
     public function __invoke(RabbitRequest $request)
     {
-       return response()->json(['message' => 'rabbit saved']);
 
         $dto = new RabbitData(
             name: $request->validated('name'),
@@ -33,6 +32,8 @@ class StoreRabbitController extends Controller
         (new StoreRabbitAction)->handle(
             ...$dto->toArray()
         );
+
+        return response()->json(['status' => 200]);
 
         
     }

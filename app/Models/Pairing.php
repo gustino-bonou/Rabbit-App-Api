@@ -36,4 +36,15 @@ class Pairing extends Model
         return $this->belongsTo(Rabbit::class, 'father_id');
     }
 
+    public function whelping(): HasOne
+    {
+        return $this->hasOne(Whelping::class);
+    }
+
+    public function verifiedExistence()
+    {
+    }
+
+
+
 }

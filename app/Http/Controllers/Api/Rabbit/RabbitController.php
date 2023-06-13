@@ -7,8 +7,11 @@ use App\Http\DataTransfertObject\Rabbit\RabbitData;
 use App\Models\Rabbit;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Rabbit\GetRabbitChildrenRequest;
 use App\Http\Requests\RabbitRequest;
 use App\Http\Resources\Rabbit\RabbitResource;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class RabbitController extends Controller
 {
@@ -69,5 +72,10 @@ class RabbitController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getFemaleRabbitChildren(GetRabbitChildrenRequest $request)
+    {
+        $femalRabbit = Rabbit::findOrFail($request->validated('mother_id'));
     }
 }

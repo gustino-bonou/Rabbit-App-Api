@@ -25,7 +25,19 @@ use Illuminate\Support\Facades\Route;
 /* Route::get('/', function () {
     return view('welcome');
 }); */
-Route::get('/', function () {
+Route::get('/register', function () {
+
+    $rabbits = Whelping::all();
+
+
+    foreach($rabbits as $rabbit)
+    {
+        $rabbit->pairing_id = null;
+
+        $rabbit->save();
+    }
+
+    dd("");
     /* $rabbits = Rabbit::all();
 
     $datas = Adoption::all()->pluck('id')->toArray();

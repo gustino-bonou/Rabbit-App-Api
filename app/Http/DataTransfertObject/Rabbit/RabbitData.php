@@ -6,14 +6,14 @@ class RabbitData
 {
     public function __construct(
         private readonly string $name,
-        private readonly string $description,
-        private readonly string $race,
-        private readonly string $image,
+        private readonly ?string $description,
+        private readonly ?string $race,
+        private readonly ?string $image,
         private readonly string $gender,
-        private readonly string $whelping_date,
-        private readonly string $whelping_id,
-        private readonly string $adoption_id,
-        private readonly string $weaning_id,
+        private readonly ?string $whelping_date,
+        private readonly ?string $whelping_id,
+        private readonly ?string $adoption_id,
+        private readonly ?string $weaning_id,
         private readonly string $farm_id,
     ){}
 

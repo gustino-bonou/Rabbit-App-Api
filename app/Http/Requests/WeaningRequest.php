@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CheckExistenceWeaning;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RabbitRequest extends FormRequest
+class WeaningRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +25,10 @@ class RabbitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ["string", 'required'],
-            'description' => ["string", 'nullable'],
-            'race' => ["string", 'nullable'],
-            'image' => ["string", 'nullable'],
-            'gender' => ["string", 'required', 'in:Mal,Femelle else'],
-            'whelping_date' => ['date','nullable'],  
-            'adoption_id' => ['nullable', "exists:adoptions,id"],
-            'weaning_id' => ['nullable', "exists:weanings,id"],
-            'whelping_id' => ['nullable', "exists:whelpings,id"],
+            "observation" => ['required', 'string', 'min:5'],
+            'weaning_date' => ['date', 'required'],
+            'whelping_id' => ['integer', 'exists:whelpings,id', new CheckExistenceWeaning($this->input('whelping_id'))],
+            'adoption_id' => ['integer', 'exists:adoptions,id', 'nullable'],
         ];
     }
 

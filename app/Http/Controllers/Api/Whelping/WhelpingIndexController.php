@@ -17,9 +17,8 @@ class WhelpingIndexController extends Controller
             resource: $request->user()->farm->whelpings()
                 ->with([
                     'pairing',
-                    'rabbits',
                 ])
-                ->paginate(10)->load('rabbits.adoption', 'rabbits.weaning')
+                ->paginate(15)
             );
     }
 }

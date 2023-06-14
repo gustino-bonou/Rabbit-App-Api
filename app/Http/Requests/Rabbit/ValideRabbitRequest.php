@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests\Rabbit;
 
-use App\Rules\ValideFemalRabbit;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class GetRabbitChildrenRequest extends FormRequest
+class ValideRabbitRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,7 @@ class GetRabbitChildrenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'mother_id' => ['required', 'exists:rabbits,id', new ValideFemalRabbit($this->input('mother_id'))]
+            'rabbit_id' => ['required', 'integer', 'exists:rabbits,id']
         ];
     }
 

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api\Pairing;
 
 use App\Models\Rabbit;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\Pairing\PairingResource;
-use App\Http\Resources\Rabbit\RabbitResource;
 use App\Models\Pairing;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Rabbit\RabbitResource;
+use App\Http\Resources\Pairing\PairingResource;
+use App\Http\Resources\Rabbit\RabbitCollection;
 
 class PairingController extends Controller
 {
@@ -40,7 +42,24 @@ class PairingController extends Controller
      */
     public function show(string $id)
     {
-        return new PairingResource(Pairing::with('mother', 'father')->findOrFail($id));
+        $pairing = Pairing::find($id);  
+
+        if($pairing !== null )
+        {
+            $pairing->load(
+                'mother.whelping',
+                'mother.weaning',
+                'mother.adoption',
+                'father.whelping',
+                'father.whelping',
+                'father.whelping'
+            );
+            return new PairingResource($pairing);
+        }
+        else 
+        {
+            return response()->json(['data' => null, 'message' => 'any response to your query']);
+        }
     }
 
     /**
@@ -65,5 +84,16 @@ class PairingController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function possiblePairings() 
+    {
+        $rabbits = Rabbit::whereDoesntHave('motherInPairing')
+    ->orWhereDoesntHave('fatherInPairing')->with('whelping');
+
+
+        return new RabbitCollection(
+            $rabbits->paginate(15)
+        );
     }
 }

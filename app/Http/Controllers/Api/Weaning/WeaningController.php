@@ -39,7 +39,24 @@ class WeaningController extends Controller
      */
     public function show(string $id)
     {
-        return new WeaningResource(Weaning::with('rabbits', 'adoption', 'whelping')->findOrFail($id));
+        $weaning = Weaning::find($id);
+        if($weaning !== null)
+        {
+            $weaning->load(
+                'rabbits',
+                'adoption',
+                'whelping',
+                'rabbits.adoption',
+                'whelping.rabbits'
+            );
+
+            return new WeaningResource($weaning);
+        }
+        else 
+        {
+            return response()->json(['data' => null, 'message' => 'any response to your query']);
+        }
+        
     }
 
     /**

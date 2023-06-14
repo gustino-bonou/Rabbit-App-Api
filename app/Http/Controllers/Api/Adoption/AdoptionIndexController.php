@@ -20,9 +20,10 @@ class AdoptionIndexController extends Controller
                     'rabbits',
                     'adoptiveMother',
                     'whelping',
+                    'adoptiveMother.whelping',
+                    'adoptiveMother.weaning'
                 ])
-                ->paginate(1)
-                ->load('adoptiveMother.whelping', 'adoptiveMother.weaning')
+                ->paginate(15)
             );
     }
 }

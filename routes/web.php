@@ -27,12 +27,12 @@ use Illuminate\Support\Facades\Route;
 }); */
 Route::get('/register', function () {
 
-    $rabbits = Whelping::all();
+    $rabbits = Rabbit::limit(5)->get();
 
 
     foreach($rabbits as $rabbit)
     {
-        $rabbit->pairing_id = null;
+        $rabbit->whelping_id = null;
 
         $rabbit->save();
     }

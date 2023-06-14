@@ -17,11 +17,9 @@ class WeaningIndexController extends Controller
             resource: $request->user()->farm->weanings()
                 ->with([
                     'whelping',
-                    'rabbits',
                     'adoption',
                 ])
-                ->paginate(10)
-                ->load('rabbits.adoption', 'rabbits.whelping')
+                ->paginate(15)
             );
     }
 }

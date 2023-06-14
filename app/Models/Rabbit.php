@@ -47,6 +47,8 @@ class Rabbit extends Model
         return $this->belongsTo(Weaning::class);
     }
 
+
+
     public function adoption(): BelongsTo
     {
         return $this->belongsTo(Adoption::class);
@@ -60,6 +62,15 @@ class Rabbit extends Model
     public function getSlug(): string 
     {
         return Str::slug($this->description);
+    }
+
+    public function scopeGetMother()
+    {
+        return $this->whelping->pairing->mother;
+    }
+    public function scopeGetFather()
+    {
+        return $this->whelping->pairing->mother;
     }
 
 }

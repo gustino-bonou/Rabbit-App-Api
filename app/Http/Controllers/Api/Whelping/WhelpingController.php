@@ -39,7 +39,24 @@ class WhelpingController extends Controller
      */
     public function show(string $id)
     {
-        return new WhelpingResource(Whelping::with('rabbits', 'pairing')->findOrFail($id));
+        $rabbit = Whelping::find($id);
+
+        if($rabbit !== null)
+        {
+            $rabbit->load(
+                'rabbits',
+                'pairing',
+                'rabbits.weaning',
+                'rabbits.adoption'
+            );
+
+            return new WhelpingResource(resource: $rabbit);
+        }
+        else
+        {
+            return response()->json(['data' => null, 'message' => 'any response to your query']);
+        }
+        
     }
 
     /**

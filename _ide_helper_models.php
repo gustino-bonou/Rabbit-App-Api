@@ -22,8 +22,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $farm_id
+ * @property-read \App\Models\Rabbit|null $adoptiveMother
  * @property-read \App\Models\Farm|null $farm
- * @property-read \App\Models\Rabbit|null $motherAdopting
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Rabbit> $rabbits
  * @property-read int|null $rabbits_count
  * @property-read \App\Models\Whelping|null $whelping
@@ -52,11 +52,17 @@ namespace App\Models{
  * @property int|null $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Adoption> $adoptions
+ * @property-read int|null $adoptions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Pairing> $pairings
  * @property-read int|null $pairings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Rabbit> $rabbits
  * @property-read int|null $rabbits_count
  * @property-read \App\Models\User|null $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Weaning> $weanings
+ * @property-read int|null $weanings_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Whelping> $whelpings
+ * @property-read int|null $whelpings_count
  * @method static \Database\Factories\FarmFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Farm newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Farm newQuery()
@@ -119,6 +125,7 @@ namespace App\Models{
  * @property-read \App\Models\Farm|null $farm
  * @property-read \App\Models\Rabbit|null $father
  * @property-read \App\Models\Rabbit|null $mother
+ * @property-read \App\Models\Whelping|null $whelping
  * @method static \Database\Factories\PairingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Pairing newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Pairing newQuery()
@@ -150,7 +157,7 @@ namespace App\Models{
  * @property int|null $adoption_id
  * @property int|null $whelping_id
  * @property int|null $weaning_id
- * @property string $whelping_date
+ * @property string|null $whelping_date
  * @property int|null $farm_id
  * @property-read \App\Models\Adoption|null $adoption
  * @property-read \App\Models\Farm|null $farm
@@ -183,6 +190,29 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\TenantPers
+ *
+ * @property string $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property array|null $data
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Stancl\Tenancy\Database\Models\Domain> $domains
+ * @property-read int|null $domains_count
+ * @method static \Stancl\Tenancy\Database\TenantCollection<int, static> all($columns = ['*'])
+ * @method static \Stancl\Tenancy\Database\TenantCollection<int, static> get($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Builder|TenantPers newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TenantPers newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TenantPers query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TenantPers whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TenantPers whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TenantPers whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TenantPers whereUpdatedAt($value)
+ */
+	class TenantPers extends \Eloquent implements \Stancl\Tenancy\Contracts\TenantWithDatabase {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Treatment
  *
  * @property int $id
@@ -203,15 +233,16 @@ namespace App\Models{
  * App\Models\User
  *
  * @property int $id
- * @property string $name
+ * @property string|null $first_name
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property mixed $password
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Farm> $farms
- * @property-read int|null $farms_count
+ * @property string|null $last_name
+ * @property string|null $phone
+ * @property-read \App\Models\Farm|null $farm
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
@@ -223,9 +254,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
@@ -280,6 +313,7 @@ namespace App\Models{
  * @property-read \App\Models\Pairing|null $pairing
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Rabbit> $rabbits
  * @property-read int|null $rabbits_count
+ * @property-read \App\Models\Weaning|null $weaning
  * @method static \Database\Factories\WhelpingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Whelping newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Whelping newQuery()

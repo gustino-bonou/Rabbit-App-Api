@@ -38,7 +38,19 @@ class AdoptionController extends Controller
      */
     public function show(string $id, Request $request)
     {
-        return new AdoptionResource(Adoption::where('farm_id', $request->user()->farm->id)->with('rabbits', 'adoptiveMother', 'whelping')->findOrFail($id));
+        $adoption = Adoption::find($id);
+
+        if($adoption !== null)
+        {
+            $adoption->load('rabbits', 'adoptiveMother', 'whelping');
+
+            return new AdoptionResource($adoption);
+        }
+        else 
+        {
+            return response()->json(['data' => null, 'message' => 'any response to your query']);
+        }
+        
     }
 
     /**

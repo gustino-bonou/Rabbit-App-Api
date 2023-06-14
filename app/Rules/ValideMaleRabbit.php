@@ -6,22 +6,22 @@ use Closure;
 use App\Models\Rabbit;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class ValideFemalRabbit implements ValidationRule
+class ValideMaleRabbit implements ValidationRule
 {
     /**
      * Run the validation rule.
      *
      * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
-    public function __construct(private $mother_id){}
+    public function __construct(private $father_id){}
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         /** @var Rabbit */
-        $rabbit = Rabbit::find((int) $this->mother_id);
+        $rabbit = Rabbit::find((int) $this->father_id);
 
-        if($rabbit->gender !== "Femelle")
+        if($rabbit->gender !== "Mal")
         {
-            $fail('The selected rabbit is not female');
+            $fail('The selected rabbit is not male');
         }
     }
 }

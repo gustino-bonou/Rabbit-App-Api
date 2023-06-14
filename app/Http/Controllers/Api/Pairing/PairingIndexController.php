@@ -13,15 +13,21 @@ class PairingIndexController extends Controller
      */
     public function __invoke(Request $request)
     {
+        $weanings = $request->user()->farm->pairings()
+            ->with([
+                'mother',
+                'father',
+                'mother.weaning',
+                'mother.whelping',
+                'mother.adoption',
+                'father.adoption',
+                'father.whelping',
+                'father.weaning'
+            ])
+            ->paginate(15);
 
         return new PairingCollection(
-            resource: $request->user()->farm->pairings()
-                ->with([
-                    'mother',
-                    'father',
-                ])
-                ->paginate(10)
-                ->load('mother.weaning', 'mother.whelping', 'mother.adoption', 'father.adoption', 'father.whelping', 'father.weaning')
+            resource: $weanings
             );
     }
 }

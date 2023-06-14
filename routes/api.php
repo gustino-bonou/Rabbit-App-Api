@@ -50,22 +50,30 @@ Route::middleware('auth:sanctum')->group(static function(): void {
     ]);
     Route::post('/store', StoreRabbitController::class)->name('store');
     
-    Route::get('/{rabbit}/children',[ RabbitController::class, 'getFemaleRabbitChildren'])->name('female.children')->where([
-        'rabbit' => $idRegex
-    ]);
+    Route::get('/same/mother',[ RabbitController::class, 'getRabbitSameMother'])->name('same.mother');
+    Route::get('/same/father',[ RabbitController::class, 'getRabbitSameFather'])->name('same.father');
+    Route::get('/{rabbit}/parents',[ RabbitController::class, 'getRabbitParents'])->name('rabbit.parents');
+    Route::get('/same/parents',[ RabbitController::class, 'getRabbitSameParents'])->name('same.parents');
+    Route::get('/possible/pairing',[ RabbitController::class, 'compatibleRabbitsForPairing'])->name('compatible.for.pairing');
+    Route::get('/females',[ RabbitController::class, 'femalesRabbits'])->name('females');
+    Route::get('/males',[ RabbitController::class, 'malesRabbits'])->name('males');
+    Route::get('/different/fathers/this',[ RabbitController::class, 'fifferentsFatherThanThis'])->name('different.fathers.this');
+    Route::get('/different/mothers/this',[ RabbitController::class, 'fifferentsMothersThanThis'])->name('different.mothers.this');
    
     });
+
     Route::prefix('pairings')->as('pairings.')->group(static function (): void {
         $idRegex = '[0-9]+';
         $slugRegex = '[0-9a-zA-Z\-]+';
-
         
-
     Route::get('/', PairingIndexController::class)->name('pairings.index');
     Route::post('/store', StorePairingController::class)->name('store');
+
     Route::get('/{pairing}',[ PairingController::class, 'show'])->name('show')->where([
         'pairing' => $idRegex
     ]);
+
+
     });
 
     Route::prefix('weanings')->as('weanings.')->group(static function (): void {

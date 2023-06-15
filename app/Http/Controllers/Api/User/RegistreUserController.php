@@ -23,10 +23,10 @@ class RegistreUserController extends Controller
             password: $request->validated('password')
         );
 
-        (new RegisterUserAction)->handle(
+        $user = (new RegisterUserAction)->handle(
             ...$dto->toArray()
         );
 
-       return response()->json(['message' => 'ok']);
+       return response()->json(['message' => 'Register successfully', 'token' => $user->createToken('auth_token')->plainTextToken ]);
     }
 }

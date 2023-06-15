@@ -13,13 +13,15 @@ class RegisterUserAction
         $last_name,
         $phone,
         
-    ): void {
-        User::create([
+    ): User {
+        $user = User::create([
             'first_name' => $first_name,
             'email' => $email,
             'password' => $password,
             'last_name' => $last_name,
             'phone' => $phone,  
         ]);
+
+        return $user;
     }
 }

@@ -1,15 +1,17 @@
 <?php
 
 use Carbon\Carbon;
+use App\Models\Farm;
 use App\Models\User;
 use App\Models\Rabbit;
 use App\Models\Pairing;
 use App\Models\Weaning;
 use Nette\Utils\Random;
 use App\Models\Adoption;
-use App\Models\Farm;
 use App\Models\Whelping;
 use Illuminate\Support\Facades\Route;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +29,7 @@ use Illuminate\Support\Facades\Route;
 }); */
 Route::get('/register', function () {
 
-    $rabbits = Rabbit::limit(5)->get();
+    /* $rabbits = Rabbit::limit(5)->get();
 
 
     foreach($rabbits as $rabbit)
@@ -36,7 +38,7 @@ Route::get('/register', function () {
 
         $rabbit->save();
     }
-
+ */
     dd("");
     /* $rabbits = Rabbit::all();
 
@@ -56,3 +58,4 @@ Route::get(
     'login',
     static fn() => User::firstOrFail()->createToken('auth_token')->plainTextToken,
 )->name('login');
+

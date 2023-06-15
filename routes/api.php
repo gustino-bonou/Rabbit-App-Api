@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Pairing\PairingIndexController;
 use App\Http\Controllers\Api\Weaning\WeaningIndexController;
 use App\Http\Controllers\Api\Adoption\AdoptionIndexController;
 use App\Http\Controllers\Api\Adoption\StoreAdoptionController;
+use App\Http\Controllers\Api\Farm\RegisterFarmController;
 use App\Http\Controllers\Api\Pairing\PairingController;
 use App\Http\Controllers\Api\Pairing\StorePairingController;
 use App\Http\Controllers\Api\Rabbit\StoreRabbitController;
@@ -32,13 +33,22 @@ use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
 
 
 
-Route::post('register-user', RegistreUserController::class)->name('user.register');
+Route::post('/register-user', RegistreUserController::class)->name('user.register');
 Route::middleware('auth:sanctum')->group(static function(): void {
     
 
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    Route::prefix('farms')->as('farms.')->group(static function (): void {
+        $idRegex = '[0-9]+';
+        $slugRegex = '[0-9a-zA-Z\-]+';
+        
+    Route::post('/store', RegisterFarmController::class)->name('store');
+
+    });
+
 
     Route::prefix('rabbits')->as('rabbits.')->group(static function (): void {
     $idRegex = '[0-9]+';
@@ -57,8 +67,6 @@ Route::middleware('auth:sanctum')->group(static function(): void {
     Route::get('/possible/pairing',[ RabbitController::class, 'compatibleRabbitsForPairing'])->name('compatible.for.pairing');
     Route::get('/females',[ RabbitController::class, 'femalesRabbits'])->name('females');
     Route::get('/males',[ RabbitController::class, 'malesRabbits'])->name('males');
-    Route::get('/different/fathers/this',[ RabbitController::class, 'fifferentsFatherThanThis'])->name('different.fathers.this');
-    Route::get('/different/mothers/this',[ RabbitController::class, 'fifferentsMothersThanThis'])->name('different.mothers.this');
    
     });
 
@@ -72,7 +80,6 @@ Route::middleware('auth:sanctum')->group(static function(): void {
     Route::get('/{pairing}',[ PairingController::class, 'show'])->name('show')->where([
         'pairing' => $idRegex
     ]);
-
 
     });
 

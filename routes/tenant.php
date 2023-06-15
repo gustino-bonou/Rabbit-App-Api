@@ -27,3 +27,11 @@ Route::middleware([
         return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
     });
 });
+Route::get('/', function () {
+    App\Models\TenantPers::all()->runForEach(function () {
+        App\Models\User::factory()->create();
+    });
+
+    dd(tenant('ok'));
+    return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
+});

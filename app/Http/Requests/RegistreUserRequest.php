@@ -31,10 +31,6 @@ class RegistreUserRequest extends FormRequest
             'password' => ['required']
         ];
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> faf425a875954cabec560cea5539e70460a61b4c
     public function failedValidation(Validator $validator)
     {
             throw new HttpResponseException(response()->json([

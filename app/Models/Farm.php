@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Farm extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'adresse'
+    ];
     public function rabbits(): HasMany
     {
         return $this->hasMany(Rabbit::class);

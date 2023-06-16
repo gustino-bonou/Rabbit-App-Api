@@ -28,7 +28,7 @@ use App\Http\Controllers\User\LoginController;
 }); */
 Route::get('/register', function () {
 
-    $rabbits = Rabbit::limit(5)->get();
+    /* $rabbits = Rabbit::limit(5)->get();
 
 
     foreach($rabbits as $rabbit)
@@ -37,7 +37,7 @@ Route::get('/register', function () {
 
         $rabbit->save();
     }
-
+ */
     dd("");
     /* $rabbits = Rabbit::all();
 

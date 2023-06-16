@@ -32,7 +32,7 @@ use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
 
 
 
-Route::post('register-user', RegistreUserController::class)->name('user.register');
+Route::post('/register-user', RegistreUserController::class)->name('user.register');
 Route::middleware('auth:sanctum')->group(static function(): void {
     
 

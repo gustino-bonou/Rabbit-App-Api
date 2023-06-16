@@ -1,15 +1,16 @@
 <?php
 
 use Carbon\Carbon;
+use App\Models\Farm;
 use App\Models\User;
 use App\Models\Rabbit;
 use App\Models\Pairing;
 use App\Models\Weaning;
 use Nette\Utils\Random;
 use App\Models\Adoption;
-use App\Models\Farm;
 use App\Models\Whelping;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +53,4 @@ Route::get('/register', function () {
     
 });
 
-Route::get(
-    'login',
-    static fn() => User::firstOrFail()->createToken('auth_token')->plainTextToken,
-)->name('login');
+Route::get('/login', LoginController::class)->name('login');

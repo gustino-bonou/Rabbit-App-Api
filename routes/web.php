@@ -10,7 +10,7 @@ use Nette\Utils\Random;
 use App\Models\Adoption;
 use App\Models\Whelping;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\LoginController;
+use App\Http\Controllers\Api\User\LoginController;
 
 /*
 |--------------------------------------------------------------------------

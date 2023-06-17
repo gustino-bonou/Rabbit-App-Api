@@ -39,6 +39,9 @@ return [
      * Database tenancy config. Used by DatabaseTenancyBootstrapper.
      */
     'database' => [
+
+
+        
         'central_connection' => env('DB_CONNECTION', 'central'),
 
         /**

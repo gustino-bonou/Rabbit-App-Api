@@ -15,7 +15,6 @@ class StoreRabbitController extends Controller
      */
     public function __invoke(RabbitRequest $request)
     {
-
         $dto = new RabbitData(
             name: $request->validated('name'),
             description: $request->validated('description'),

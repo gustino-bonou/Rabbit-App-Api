@@ -18,7 +18,6 @@ class StoreWhelpingAction
             'whelping_date' => $whelping_date,
         ]);
 
-        $whelping->farm()->associate($farm_id);
         $whelping->pairing()->associate($pairing_id);
 
         $whelping->save();

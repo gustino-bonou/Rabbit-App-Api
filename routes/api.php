@@ -1,24 +1,29 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\User\LogoutController;
 use App\Http\Controllers\Api\Rabbit\RabbitController;
+use App\Http\Controllers\Api\Pairing\PairingController;
+use App\Http\Controllers\Api\Weaning\WeaningController;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use App\Http\Controllers\Api\Adoption\AdoptionController;
+use App\Http\Controllers\Api\Farm\RegisterFarmController;
+use App\Http\Controllers\Api\User\RegistreUserController;
+use App\Http\Controllers\Api\Whelping\WhelpingController;
 use App\Http\Controllers\Api\Rabbit\RabbitIndexController;
+use App\Http\Controllers\Api\Rabbit\StoreRabbitController;
 use App\Http\Controllers\Api\Pairing\PairingIndexController;
+use App\Http\Controllers\Api\Pairing\StorePairingController;
+use App\Http\Controllers\Api\Weaning\StoreWeaningController;
 use App\Http\Controllers\Api\Weaning\WeaningIndexController;
 use App\Http\Controllers\Api\Adoption\AdoptionIndexController;
 use App\Http\Controllers\Api\Adoption\StoreAdoptionController;
-use App\Http\Controllers\Api\Farm\RegisterFarmController;
-use App\Http\Controllers\Api\Pairing\PairingController;
-use App\Http\Controllers\Api\Pairing\StorePairingController;
-use App\Http\Controllers\Api\Rabbit\StoreRabbitController;
-use App\Http\Controllers\Api\User\RegistreUserController;
-use App\Http\Controllers\Api\Weaning\StoreWeaningController;
-use App\Http\Controllers\Api\Weaning\WeaningController;
 use App\Http\Controllers\Api\Whelping\StoreWhelpingController;
-use App\Http\Controllers\Api\Whelping\WhelpingController;
 use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
+use App\Http\Controllers\FarmController;
+use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,24 +38,28 @@ use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
 
 
 
-Route::post('/register-user', RegistreUserController::class)->name('user.register');
-Route::middleware('auth:sanctum')->group(static function(): void {
+Route::post('/register-user', RegistreUserController::class)
+    ->middleware('guest')->name('user.register');
+
+Route::middleware(['auth:sanctum'])->group(static function(): void {
     
 
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::get('/logout', LogoutController::class)
+        ->name('logout');
 
-    Route::prefix('farms')->as('farms.')->group(static function (): void {
+    Route::prefix('farms')->middleware('initialize.tenant')->as('farms.')->group(static function (): void {
         $idRegex = '[0-9]+';
         $slugRegex = '[0-9a-zA-Z\-]+';
-        
-    Route::post('/store', RegisterFarmController::class)->name('store');
 
+        Route::post('/store', RegisterFarmController::class)->name('store');
+        
     });
 
 
-    Route::prefix('rabbits')->as('rabbits.')->group(static function (): void {
+    Route::prefix('rabbits')->middleware('initialize.tenant')->as('rabbits.')->group(static function (): void {
     $idRegex = '[0-9]+';
     $slugRegex = '[0-9a-zA-Z\-]+';
 

@@ -21,7 +21,7 @@ class RegistreUserController extends Controller
      */
     public function __invoke(RegistreUserRequest $request)
     {
-        DB::beginTransaction();
+
         $dto = new RegisterUserData(
             firstName: $request->validated('first_name'),
             lastName: $request->validated('last_name'),
@@ -30,46 +30,48 @@ class RegistreUserController extends Controller
             password: $request->validated('password')
         );
 
-        $user = (new RegisterUserAction)->handle(
-            ...$dto->toArray()
-        );
+                
+            $user = (new RegisterUserAction)->handle(
+                ...$dto->toArray()
+            );
 
-        $credentials = [
-            'email' => $request->validated('email'),
-            'password' => $request->validated('password'),
-        ];
+            $credentials = [
+                'email' => $request->validated('email'),
+                'password' => $request->validated('password'),
+            ];
 
-        if (Auth::attempt($credentials))
-        {
-            // Authentification réussie
+            if (Auth::attempt($credentials))
+            {
+                // Authentification réussie
 
-            $tenant = \App\Models\Tenant::create([
-                'id' => Str::slug($user->first_name . $user->last_name . $user->id),
-                'name' => $user->last_name. $user->id
-            ]);
+                $tenant = \App\Models\Tenant::create([
+                    'id' => Str::substr($user->first_name, 0, 3). $user->id,
+                    'name' => $user->last_name. $user->id
+                ]);
 
 
-            $tenant->domains()->create([
-                'domain' => Str::substr($user->first_name, 0, 3). $user->id  . '.'  .'localhost'
-            ]);
+                $tenant->domains()->create([
+                    'domain' => Str::substr($user->first_name, 0, 3). $user->id  . '.'  .'localhost'
+                ]);
 
-            
-            $user->tenant()->associate($tenant);
+                
+                $user->tenant()->associate($tenant);
 
-            $token = $user->createToken('auth_token')->plainTextToken;
+                $token = $user->createToken('auth_token')->plainTextToken;
 
-            $user->authToken = $token;
+                $user->authToken = $token;
 
-            $user->save();
+                $user->save();
 
-        return response()->json(['message' => 'ok', 'your-api-key' => $token,]);
+                return response()->json(['message' => "Register successfully"]);
 
-        } else 
-        {
-            throw new HttpResponseException(response()->json([
-                "error" => true,
-                "message" => "Data not valid",
-            ], 422));
-        }   
+            } else 
+            {
+                throw new HttpResponseException(response()->json([
+                    "error" => true,
+                    "message" => "Data not valid",
+                ], 422));
+            }   
+        
     }
 }

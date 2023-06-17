@@ -19,7 +19,6 @@ class StoreWeaningAction
             'weaning_date' => $weaning_date,
         ]);
 
-        $weaning->farm()->associate($farm_id);
         $weaning->adoption()->associate($adoption_id);
         $weaning->whelping()->associate($whelping_id);
 

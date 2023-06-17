@@ -16,7 +16,6 @@ class StoreFarmAction
             'adresse' => $adresse
         ]);
 
-        $farm->user()->associate(Auth::user()->id);
         $farm->save();
     }
 }

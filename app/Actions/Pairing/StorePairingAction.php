@@ -20,7 +20,6 @@ class StorePairingAction
             'observation' => $observation,  
         ]);
 
-        $pairing->farm()->associate($farm_id);
         $pairing->mother()->associate($mother_id);
         $pairing->father()->associate($father_id);
 

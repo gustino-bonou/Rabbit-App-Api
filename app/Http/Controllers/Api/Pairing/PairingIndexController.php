@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Pairing;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Pairing\PairingCollection;
+use App\Models\Pairing;
 use Illuminate\Http\Request;
 
 class PairingIndexController extends Controller
@@ -13,8 +14,7 @@ class PairingIndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $weanings = $request->user()->farm->pairings()
-            ->with([
+        $weanings = Pairing::with([
                 'mother',
                 'father',
                 'mother.weaning',

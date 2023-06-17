@@ -27,7 +27,6 @@ class StoreRabbitAction
             'whelping_date' => $whelping_date,  
         ]);
 
-        $rabbit->farm()->associate($farm_id);
         $rabbit->weaning()->associate($weaning_id);
         $rabbit->adoption()->associate($adoption_id);
         $rabbit->whelping()->associate($whelping_id);

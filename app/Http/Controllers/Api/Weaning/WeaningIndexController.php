@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Weaning;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Weaning\WeaningCollection;
+use App\Models\Weaning;
 use Illuminate\Http\Request;
 
 class WeaningIndexController extends Controller
@@ -14,8 +15,7 @@ class WeaningIndexController extends Controller
     public function __invoke(Request $request)
     {
         return new WeaningCollection(
-            resource: $request->user()->farm->weanings()
-                ->with([
+            resource: Weaning::with([
                     'whelping',
                     'adoption',
                 ])

@@ -21,7 +21,6 @@ class StoreAdoptionAction
             'observation' => $observation,  
         ]);
 
-        $adoption->farm()->associate($farm_id);
         $adoption->adoptiveMother()->associate($adoption_mother);
         $adoption->whelping()->associate($whelping_id);
 

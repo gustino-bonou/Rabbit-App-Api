@@ -24,7 +24,9 @@ class LoginController extends Controller
         {
             // Authentification réussie
             $user = User::find(Auth::user()->id);
-            return response()->json(['message' => 'Login successful', 'jeton' => $user->createToken('user_token')->plainTextToken], 200);
+            return response()->json([
+                'message' => 'Login successful', 
+                'jeton' => $user->createToken('user_token')->plainTextToken], 200);
         }
         else
         {

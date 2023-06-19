@@ -23,34 +23,4 @@ use App\Http\Controllers\Api\User\LoginController;
 |
 */
 
-/* Route::get('/', function () {
-    return view('welcome');
-}); */
-Route::get('/register', function () {
-
-    /* $rabbits = Rabbit::limit(5)->get();
-
-
-    foreach($rabbits as $rabbit)
-    {
-        $rabbit->whelping_id = null;
-
-        $rabbit->save();
-    }
- */
-    dd("");
-    /* $rabbits = Rabbit::all();
-
-    $datas = Adoption::all()->pluck('id')->toArray();
-    foreach($rabbits as $rabbit )
-    {
-        $key = array_rand(Adoption::limit(20)->pluck('id')->toArray());
-        $rabbit->adoption_id = null;
-
-        $rabbit->save();
-    } */
-
-    
-});
-
-Route::get('/login', LoginController::class)->name('login');
+require __DIR__.'/api.php';

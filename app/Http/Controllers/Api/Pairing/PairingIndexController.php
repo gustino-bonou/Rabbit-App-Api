@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Pairing;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Pairing\PairingCollection;
 use App\Models\Pairing;
+use App\Responses\Pairing\PairingCollectionResponse;
 use Illuminate\Http\Request;
 
 class PairingIndexController extends Controller
@@ -26,8 +27,8 @@ class PairingIndexController extends Controller
             ])
             ->paginate(15);
 
-        return new PairingCollection(
-            resource: $weanings
-            );
+        return new PairingCollectionResponse(
+            collection: $weanings
+        );
     }
 }

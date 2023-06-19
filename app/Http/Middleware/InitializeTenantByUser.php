@@ -58,6 +58,8 @@ class InitializeTenantByUser
             }
         }
 
+        
+
         return $next($request); 
     }
 }

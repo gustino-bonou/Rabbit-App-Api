@@ -35,12 +35,14 @@ class RegistreUserController extends Controller
                 ...$dto->toArray()
             );
 
-            $credentials = [
+        return response()->json(['message']);
+
+           /*  $credentials = [
                 'email' => $request->validated('email'),
                 'password' => $request->validated('password'),
             ];
-
-            if (Auth::attempt($credentials))
+ */
+            /* if (Auth::attempt($credentials))
             {
                 // Authentification réussie
 
@@ -63,7 +65,7 @@ class RegistreUserController extends Controller
 
                 $user->save();
 
-                return response()->json(['message' => "Register successfully"]);
+                return response()->json(['message' => "Register successfully", 'token' => $token, "user" => $user->toArray()]);
 
             } else 
             {
@@ -71,7 +73,7 @@ class RegistreUserController extends Controller
                     "error" => true,
                     "message" => "Data not valid",
                 ], 422));
-            }   
+            }  */  
         
     }
 }

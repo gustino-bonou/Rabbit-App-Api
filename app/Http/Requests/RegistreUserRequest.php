@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Response;
 
 class RegistreUserRequest extends FormRequest
 {
@@ -33,7 +34,10 @@ class RegistreUserRequest extends FormRequest
     }
     public function failedValidation(Validator $validator)
     {
-            throw new HttpResponseException(response()->json([
+
+            
+
+        throw new HttpResponseException(response()->json([
                 'success' => false,
                 "error" => true,
                 "message" => "Data not valid",

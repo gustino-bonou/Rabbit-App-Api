@@ -19,18 +19,24 @@ class PairingFactory extends Factory
      */
     public function definition(): array
     {
+        $motherIds = Rabbit::where('gender', 'Femelle')
+            ->limit(30) // Limitez à 30 femelles
+            ->pluck('id')
+            ->toArray();
+
+        $fatherIds = Rabbit::where('gender', 'Mal')
+            ->limit(7) // Limitez à 30 femelles
+            ->pluck('id')
+            ->toArray();
+
         return [
             'observation' => $this->faker->sentence,
 
             'pairing_date' => $this->faker->dateTimeBetween('-2 years', '-1 year'),
 
-            'mother_id' => function () {
-                return $this->faker->randomElement(Rabbit::where('gender', 'Femelle')->pluck('id'));
-            },
+            'mother_id' => $this->faker->randomElement($motherIds),
 
-            'father_id' => function () {
-                return $this->faker->randomElement(Rabbit::where('gender', 'Mal')->pluck('id'));
-            },
+            'father_id' => $this->faker->randomElement($fatherIds),
         ];
     }
 }

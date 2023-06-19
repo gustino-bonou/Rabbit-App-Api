@@ -3,8 +3,6 @@
 namespace App\Actions\Adoption;
 
 use App\Models\Adoption;
-use App\Models\Pairing;
-use App\Models\Rabbit;
 use Carbon\Carbon;
 
 class StoreAdoptionAction

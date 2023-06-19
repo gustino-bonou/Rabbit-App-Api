@@ -17,7 +17,7 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 | Feel free to customize them however you want. Good luck!
 |
 */
-
+/* 
 Route::middleware([
     'web',
     InitializeTenancyByDomain::class,
@@ -27,12 +27,10 @@ Route::middleware([
     Route::get('/', function () {
         return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
     });
-});
-Route::get('/', function () {
-    App\Models\TenantPers::all()->runForEach(function () {
-        App\Models\User::factory()->create();
-    });
+}); */
 
-    dd(tenant('ok'));
-    return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
+Route::get('/', function () {
+    return response()->json(['message' => 'supper'],status: 200);
 });
+
+require __DIR__.'/api.php';

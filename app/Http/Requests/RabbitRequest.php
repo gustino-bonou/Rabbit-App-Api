@@ -28,7 +28,7 @@ class RabbitRequest extends FormRequest
             'description' => ["string", 'nullable'],
             'race' => ["string", 'nullable'],
             'image' => ["string", 'nullable'],
-            'gender' => ["string", 'required', 'in:Mal,Femelle else'],
+            'gender' => ["string", 'required', 'in:Mal,Femelle'],
             'whelping_date' => ['date','nullable'],  
             'adoption_id' => ['nullable', "exists:adoptions,id"],
             'weaning_id' => ['nullable', "exists:weanings,id"],

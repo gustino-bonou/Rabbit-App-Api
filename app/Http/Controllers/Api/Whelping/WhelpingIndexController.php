@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Whelping;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Whelping\WhelpingCollection;
 use App\Models\Whelping;
+use App\Responses\Whelping\WhelpingCollectionResponse;
 use Illuminate\Http\Request;
 
 class WhelpingIndexController extends Controller
@@ -14,8 +15,8 @@ class WhelpingIndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-         return new WhelpingCollection(
-            resource: Whelping::with([
+         return new WhelpingCollectionResponse(
+            collection: Whelping::with([
                     'pairing',
                 ])
                 ->paginate(15)

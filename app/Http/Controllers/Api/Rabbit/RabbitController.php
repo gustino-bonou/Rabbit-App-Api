@@ -18,6 +18,8 @@ use App\Http\DataTransfertObject\Rabbit\RabbitData;
 use App\Http\Requests\Rabbit\GetRabbitSameFatherRequest;
 use App\Http\Requests\Rabbit\GetRabbitSameMotherRequest;
 use App\Http\Requests\Rabbit\GetRabbitSamePairentsRequest;
+use App\Responses\ObjectResponse;
+use App\Responses\Rabbit\RabbitCollectionResponse;
 
 class RabbitController extends Controller
 {
@@ -59,11 +61,15 @@ class RabbitController extends Controller
 
             $rabbit->load('weaning', 'adoption', 'whelping');
 
-            return new RabbitResource($rabbit);
+            return response()->json(['data' => $rabbit->toArray()], status: 200);
+
+            /* return new RabbitResource(
+                resource: $rabbit
+            ); */
         }
         else 
         {
-            return response()->json(['data' => null, 'message' => 'any response to your query']);
+            return response()->json( status: 204);
         }
 
         

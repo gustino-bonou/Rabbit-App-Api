@@ -19,13 +19,14 @@ class RabbitFactory extends Factory
      */
     public function definition(): array
     {
+        $gender = $this->faker->randomElement(['Mal', 'Femelle']);
         return [
-            'name' => $this->faker->firstNameFemale,
+            'name' => $gender === 'Femelle' ? $this->faker->firstNameFemale : $this->faker->firstNameMale,
             'description' => $this->faker->sentence,
-            'race' => $this->faker->randomElement(['Lionhead', 'Dutch', 'Flemish Giant']),
+            'race' => $this->faker->randomElement(['Lionhead', 'Dutch', 'Flemish Giant', 'American Chinchilla [US]', 'Argente Bleu', 'Canadian Plush Lop']),
             'image' => $this->faker->imageUrl(),
-            'gender' => $this->faker->randomElement(['Mal', 'Femelle']),
-            'whelping_date' => $this->faker->dateTimeBetween('-2 years', 'now'),
+            'gender' => $gender,
+            'whelping_date' => $this->faker->dateTimeBetween('-1 years', 'now'),
         ];
     }
     

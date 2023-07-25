@@ -33,6 +33,7 @@ class RabbitRequest extends FormRequest
             'adoption_id' => ['nullable', "exists:adoptions,id"],
             'weaning_id' => ['nullable', "exists:weanings,id"],
             'whelping_id' => ['nullable', "exists:whelpings,id"],
+            'farm_id' => ['required', "exists:farms,id"],
         ];
     }
 

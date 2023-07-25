@@ -6,6 +6,7 @@ use App\Actions\Pairing\StorePairingAction;
 use App\Http\Controllers\Controller;
 use App\Http\DataTransfertObject\Pairing\PairingData;
 use App\Http\Requests\PairingRequest;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class StorePairingController extends Controller
@@ -20,7 +21,7 @@ class StorePairingController extends Controller
             observation: $request->validated('observation'),
             fatherId: $request->validated('father_id'),
             motherId: $request->validated('mother_id'),
-            farmID: $request->user()->farm->id,
+            farmID: $request->validated('farm_id')
         );
 
        $pairing =  (new StorePairingAction)->handle(

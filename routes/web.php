@@ -11,6 +11,8 @@ use App\Models\Adoption;
 use App\Models\Whelping;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\LoginController;
+use App\Http\Controllers\Api\User\LogoutController;
+use App\Http\Controllers\Api\User\RegistreUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +24,11 @@ use App\Http\Controllers\Api\User\LoginController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+
+
+
+
 
 require __DIR__.'/api.php';

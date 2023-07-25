@@ -6,6 +6,8 @@ use App\Actions\Farm\StoreFarmAction;
 use App\Http\Controllers\Controller;
 use App\Http\DataTransfertObject\Farm\FarmData;
 use App\Http\Requests\Farm\FarmRequest;
+use App\Models\Farm;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RegisterFarmController extends Controller
@@ -15,15 +17,24 @@ class RegisterFarmController extends Controller
      */
     public function __invoke(FarmRequest $request)
     {
-        $dto = new FarmData(
+        /* @var User */
+        $user = User::find($request->user()->id);
+
+        if($user->farm_id !== null)
+        {
+            return response()->json(['messge' => 'vous avez déjà une ferme'], status: 409);
+        }
+
+        $dto = new FarmData( 
             name: $request->validated('name'),
-            adresse: $request->validated('adresse')
+            adresse: $request->validated('adresse'),
+            user_id: $user->id
         );
 
-        (new StoreFarmAction)->handle(
+        $farm = (new StoreFarmAction)->handle(
             ...$dto->toArray()
         );
 
-        return response()->json(['message' => 'Farm Create successfully']);
+        return response()->json(['farm' => $farm->toArray()], status: 200);
     }
 }

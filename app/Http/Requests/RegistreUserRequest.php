@@ -25,13 +25,26 @@ class RegistreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required', 'string', 'min:5'],
+            'first_name' => ['required', 'string', 'min:3'],
             'last_name' => ['required', 'string', 'min:5'],
             'phone' => ['required', 'string'],
             'email' => ['required', 'email' , 'unique:users,email'],
             'password' => ['required']
         ];
     }
+
+
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Le champ email est requis.',
+            'email.unique' => 'Cette adresse email est déjà utilisée.',
+        ];
+    }
+
+    
+
     public function failedValidation(Validator $validator)
     {
 

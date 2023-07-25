@@ -35,24 +35,25 @@ use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
 */
 
 
-Route::post('/register-user', RegistreUserController::class)
+Route::post('/register', RegistreUserController::class)
     ->middleware('guest')->name('user.register');
 
     
 Route::post('/login', LoginController::class)->name('login')->middleware('guest');
 
 
-
-Route::middleware(['auth:sanctum'])->group(static function(): void {
-    
+Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+
+        return response()->json(['user' => $request->user()]);
+
+    })->name('user');
+
     Route::get('/logout', LogoutController::class)
         ->name('logout');
 
-    Route::prefix('farms')->middleware('initialize.tenant')->as('farms.')->group(static function (): void {
+    Route::prefix('farms')->as('farms.')->group(static function (): void {
         $idRegex = '[0-9]+';
         $slugRegex = '[0-9a-zA-Z\-]+';
 
@@ -130,5 +131,6 @@ Route::middleware(['auth:sanctum'])->group(static function(): void {
         Route::post('/store', StoreAdoptionController::class)->name('store');
 
     });
-});
 
+
+});

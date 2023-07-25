@@ -25,14 +25,14 @@ class StoreRabbitController extends Controller
             whelping_id: $request->validated('whelping_id'),
             weaning_id: $request->validated('weaning_id'),
             whelping_date: $request->validated('whelping_date'),
-            farm_id: 1
+            farm_id: $request->validated('farm_id'),
         );
 
-        (new StoreRabbitAction)->handle(
+        $rabbit = (new StoreRabbitAction)->handle(
             ...$dto->toArray()
         );
 
-        return response()->json(['status' => 200]);
+        return response()->json(['rabbit' => $rabbit->toArray()]);
 
         
     }

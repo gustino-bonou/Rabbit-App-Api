@@ -17,8 +17,8 @@ class StoreRabbitAction
         $adoption_id,
         $weaning_id,
         $farm_id,
-    ): void {
-        $rabbit = Rabbit::create([
+    ): Rabbit {
+        $rabbit = Rabbit::create([ 
             'name' => $name,
             'description' => $description,
             'race' => $race,
@@ -30,7 +30,10 @@ class StoreRabbitAction
         $rabbit->weaning()->associate($weaning_id);
         $rabbit->adoption()->associate($adoption_id);
         $rabbit->whelping()->associate($whelping_id);
+        $rabbit->farm()->associate($farm_id);
 
         $rabbit->save();
+
+        return $rabbit;
     }
 }

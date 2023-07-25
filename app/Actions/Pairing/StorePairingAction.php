@@ -22,6 +22,7 @@ class StorePairingAction
 
         $pairing->mother()->associate($mother_id);
         $pairing->father()->associate($father_id);
+        $pairing->farm()->associate($farm_id);
 
         $pairing->save();
 

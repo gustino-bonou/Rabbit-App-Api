@@ -29,6 +29,7 @@ class WeaningRequest extends FormRequest
             'weaning_date' => ['date', 'required'],
             'whelping_id' => ['integer', 'exists:whelpings,id', new CheckExistenceWeaning($this->input('whelping_id'))],
             'adoption_id' => ['integer', 'exists:adoptions,id', 'nullable'],
+            'farm_id' => ['required', 'exists:farms,id'],
         ];
     }
 

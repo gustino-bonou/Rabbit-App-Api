@@ -21,6 +21,7 @@ class StoreWeaningAction
 
         $weaning->adoption()->associate($adoption_id);
         $weaning->whelping()->associate($whelping_id);
+        $weaning->farm()->associate($farm_id);
 
         $weaning->save();
 

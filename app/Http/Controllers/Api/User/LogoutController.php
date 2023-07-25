@@ -13,6 +13,7 @@ class LogoutController extends Controller
      */
     public function __invoke(Request $request)
     {
+        
         $request->user()->tokens()->delete();
 
         return response()->json([

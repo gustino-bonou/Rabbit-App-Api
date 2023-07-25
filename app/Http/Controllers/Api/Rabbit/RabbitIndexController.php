@@ -17,7 +17,6 @@ class RabbitIndexController extends Controller
      */
     public function __invoke(Request $request): RabbitCollectionResponse
     {
-        Whelping::factory()->count(31)->create();
         return new RabbitCollectionResponse(
 
             collection: Rabbit::with(['weaning', 'whelping', 'adoption'])

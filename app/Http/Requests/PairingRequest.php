@@ -30,6 +30,7 @@ class PairingRequest extends FormRequest
             'observation' => ["string", 'required', 'min:10'],
             'father_id' => ['required','integer',  new ValideRabbitsInPairing($this->input('father_id'))],
             'mother_id' => ['required','integer', new ValideFemalRabbit($this->input('mother_id'))],
+            'farm_id' => ['required','exists:farms,id'],
         ];
     }
 

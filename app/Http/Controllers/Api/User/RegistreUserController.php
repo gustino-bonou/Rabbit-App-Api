@@ -13,6 +13,7 @@ use App\Http\Requests\RegistreUserRequest;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Http\DataTransfertObject\User\RegisterUserData;
+use App\Models\User;
 
 class RegistreUserController extends Controller
 {
@@ -31,49 +32,47 @@ class RegistreUserController extends Controller
         );
 
                 
-            $user = (new RegisterUserAction)->handle(
-                ...$dto->toArray()
-            );
+            try{
+                    $user = (new RegisterUserAction)->handle(
+                    ...$dto->toArray()
+                );
 
-        return response()->json(['message']);
+            
 
-           /*  $credentials = [
-                'email' => $request->validated('email'),
-                'password' => $request->validated('password'),
-            ];
- */
-            /* if (Auth::attempt($credentials))
-            {
-                // Authentification réussie
+                $credentials = [
+                    'email' => $request->validated('email'),
+                    'password' => $request->validated('password'),
+                ];
 
-                $tenant = \App\Models\Tenant::create([
-                    'id' => Str::substr($user->first_name, 0, 3). $user->id,
-                    'name' => $user->last_name. $user->id
-                ]);
+    
+                if (Auth::attempt($credentials))
+                {
+
+                    $id = $user->id;
+
+                    $user = User::find($id);
 
 
-                $tenant->domains()->create([
-                    'domain' => Str::substr($user->first_name, 0, 3). $user->id  . '.'  .'localhost'
-                ]);
+                    $token = $user->createToken('auth_token')->plainTextToken;
 
-                
-                $user->tenant()->associate($tenant);
+                    $user->authToken = $token;
 
-                $token = $user->createToken('auth_token')->plainTextToken;
+                    $user->save();
 
-                $user->authToken = $token;
+                    return response()->json(
+                        ['message' => "Register successfully", 'token' => $token, "user" => $user->toArray()],
+                    status: 200);
 
-                $user->save();
-
-                return response()->json(['message' => "Register successfully", 'token' => $token, "user" => $user->toArray()]);
-
-            } else 
-            {
-                throw new HttpResponseException(response()->json([
-                    "error" => true,
-                    "message" => "Data not valid",
-                ], 422));
-            }  */  
+                }
+                  
+            } catch(\Exception $e) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                "error" => true,
+                "message" => "Data not valid",
+                "errorsList" => $e->getMessage()
+            ], 422));
+            }
         
     }
 }

@@ -19,14 +19,14 @@ class RabbitResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'race' => $this->race,
-            'gender' => $this->gender,
-            'weaning' => WeaningResource::make($this->whenLoaded('weaning')),
-            'whelping' => WhelpingResource::make($this->whenLoaded('whelping')),
-            'adoption' => AdoptionResource::make($this->whenLoaded('adoption')),
+            'id' => $this->id ?? '',
+            'name' => $this->name ?? '',
+            'description' => $this->description ?? '',
+            'race' => $this->race ?? '',
+            'gender' => $this->gender ?? '',
+            'weaning' => WeaningResource::make($this->whenLoaded('weaning')) ?? '',
+            'whelping' => WhelpingResource::make($this->whenLoaded('whelping')) ?? '',
+            'adoption' => AdoptionResource::make($this->whenLoaded('adoption')) ?? '',
         ];
     }
 }

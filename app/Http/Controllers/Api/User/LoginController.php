@@ -22,11 +22,27 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials))
         {
-            // Authentification réussie
-            $user = User::find(Auth::user()->id);
-            return response()->json([
-                'message' => 'Login successful', 
-                'jeton' => $user->createToken('user_token')->plainTextToken], 200);
+
+            $id = $request->user()->id;
+
+            $user = User::find($id);
+
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            $user->authToken = $token;
+
+            $user->save();
+
+            return response()->json( 
+                [
+                    'message' => "Register successfully", 
+                    'token' => $token, 
+                    "user" => $user->toArray()
+                ],
+
+                status: 200);
+
         }
         else
         {

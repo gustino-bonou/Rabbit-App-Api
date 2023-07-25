@@ -7,6 +7,7 @@ use Closure;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
 use Stancl\Tenancy\Facades\Tenancy;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -42,9 +43,11 @@ class InitializeTenantByUser
     public function handle(Request $request, Closure $next): Response
     {
         
-        $tenant = $this->resolveTenant($request);       
+        $tenant = $this->resolveTenant($request);
+        
 
         if ($tenant !== null) {
+
             
 
             try {

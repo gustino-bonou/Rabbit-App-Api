@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Farm;
 use App\Models\Rabbit;
 use App\Models\Whelping;
+use App\Scope\GlobalFarmScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,16 @@ class Pairing extends Model
         'mother_id',
         'father_id'
     ];
+
+
+    protected static function booted()
+    {
+        parent::booted();
+
+        
+        static::addGlobalScope(new GlobalFarmScope());
+    }
+
 
     public function farm(): BelongsTo
     {

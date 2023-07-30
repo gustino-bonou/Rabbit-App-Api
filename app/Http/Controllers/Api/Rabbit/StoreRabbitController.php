@@ -25,7 +25,7 @@ class StoreRabbitController extends Controller
             whelping_id: $request->validated('whelping_id'),
             weaning_id: $request->validated('weaning_id'),
             whelping_date: $request->validated('whelping_date'),
-            farm_id: $request->validated('farm_id'),
+            farm_id: $request->user()->farm_id
         );
 
         $rabbit = (new StoreRabbitAction)->handle(

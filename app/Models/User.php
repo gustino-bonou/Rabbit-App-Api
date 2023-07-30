@@ -51,11 +51,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function tenant(): BelongsTo
-    {
-        return $this->belongsTo(Tenant::class);
-    }
-    
+
     public function farm(): HasOne
     {
         return $this->hasOne(Farm::class);

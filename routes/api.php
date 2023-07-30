@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\Weaning\StoreWeaningController;
 use App\Http\Controllers\Api\Weaning\WeaningIndexController;
 use App\Http\Controllers\Api\Adoption\AdoptionIndexController;
 use App\Http\Controllers\Api\Adoption\StoreAdoptionController;
+use App\Http\Controllers\Api\Whelping\NearbyWhelpingController;
 use App\Http\Controllers\Api\Whelping\StoreWhelpingController;
 use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
 
@@ -87,7 +88,10 @@ Route::middleware('auth:sanctum')->group(function () {
         $slugRegex = '[0-9a-zA-Z\-]+';
         
         Route::get('/', PairingIndexController::class)->name('pairings.index');
+
         Route::post('/store', StorePairingController::class)->name('store');
+
+        Route::get('/old', NearbyWhelpingController::class)->name('old.pairing');
 
         Route::get('/{pairing}',[ PairingController::class, 'show'])->name('show')->where([
             'pairing' => $idRegex

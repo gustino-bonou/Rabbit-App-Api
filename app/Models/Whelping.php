@@ -5,12 +5,13 @@ namespace App\Models;
 use App\Models\Farm;
 use App\Models\Rabbit;
 use App\Models\Pairing;
+use App\Scope\GlobalFarmScope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\HttpClientException;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Http\Client\HttpClientException;
 
 class Whelping extends Model
 {
@@ -21,6 +22,16 @@ class Whelping extends Model
         'pairing_id',
         'observation'
     ];
+
+
+    protected static function booted()
+    {
+        parent::booted();
+
+        
+        static::addGlobalScope(new GlobalFarmScope());
+    }
+
 
     protected static function boot()
     {

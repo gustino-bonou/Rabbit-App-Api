@@ -6,6 +6,7 @@ use App\Models\Pairing;
 use App\Models\Weaning;
 use App\Models\Adoption;
 use App\Models\Whelping;
+use App\Scope\GlobalFarmScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,6 +28,17 @@ class Rabbit extends Model
         'whelping_id',
         'weaning_id'
     ];
+
+
+
+    protected static function booted()
+    {
+        parent::booted();
+
+        
+        static::addGlobalScope(new GlobalFarmScope());
+    }
+
 
     public function farm(): BelongsTo
     {

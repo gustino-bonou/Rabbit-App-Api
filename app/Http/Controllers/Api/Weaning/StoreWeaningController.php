@@ -20,7 +20,7 @@ class StoreWeaningController extends Controller
             observation: $request->validated('observation'),
             adoptionId: $request->validated('adoption_id'),
             whelpingId: $request->validated('whelping_id'),
-            farmId: $request->validated('farm_id'),
+            farmId: $request->user()->farm_id,
         );
 
         $weaning = (new StoreWeaningAction)->handle(

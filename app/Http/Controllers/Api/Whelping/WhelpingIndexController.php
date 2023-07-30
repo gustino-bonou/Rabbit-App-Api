@@ -18,6 +18,9 @@ class WhelpingIndexController extends Controller
          return new WhelpingCollectionResponse(
             collection: Whelping::with([
                     'pairing',
+                    'pairing.mother',
+                    'pairing.father',
+                    'rabbits'
                 ])
                 ->paginate(15)
             );

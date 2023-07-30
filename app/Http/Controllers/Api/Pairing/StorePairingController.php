@@ -21,13 +21,13 @@ class StorePairingController extends Controller
             observation: $request->validated('observation'),
             fatherId: $request->validated('father_id'),
             motherId: $request->validated('mother_id'),
-            farmID: $request->validated('farm_id')
+            farmID: $request->user()->farm_id
         );
 
        $pairing =  (new StorePairingAction)->handle(
             ...$dto->toArray()
         );
 
-        return response()->json(['data' => $pairing->toArray()], 200);
+        return response()->json(['pairing' => $pairing->toArray()], 200);
     }
 }

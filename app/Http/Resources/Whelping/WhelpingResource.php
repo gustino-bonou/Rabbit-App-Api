@@ -17,9 +17,12 @@ class WhelpingResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            
             'id' => $this->id ?? '',
-            'bith_date' => $this->whelping_date ?? '',
+            'whelping_date' => $this->whelping_date ?? '',
             'observation' => $this->observation ?? '',
+            'deads_kits_number' => $this->deads_kits_number,
+            'kits_number' => $this-> kits_number,
             'pairing' => PairingResource::make($this->whenLoaded('pairing')) ?? '',
             'rabbits' => RabbitResource::collection($this->whenLoaded('rabbits')) ?? '',
         ];

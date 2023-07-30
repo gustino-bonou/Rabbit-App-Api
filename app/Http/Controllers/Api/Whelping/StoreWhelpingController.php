@@ -21,13 +21,15 @@ class StoreWhelpingController extends Controller
             observation: $request->validated('observation'),
             whelpingDate: $request->validated('whelping_date'),
             pairingId: $request->validated('pairing_id'),
-            farmId: $request->user()->farm->id
+            farmId: $request->user()->farm_id,
+            deadsKitsNumber:  $request->validated('deads_kits_number'),
+            kitsNumber:  $request->validated('kits_number'),
         );
 
         $whelping = (new StoreWhelpingAction)->handle(
             ...$dto->toArray()
         );
 
-        return response()->json(['weaning' => Whelping::with('pairing')->find($whelping->id)->toArray()], 200);
+        return response()->json(['whelping' => Whelping::with('pairing')->find($whelping->id)->toArray()], 200);
     }
 }

@@ -27,7 +27,7 @@ class AdoptionRequest extends FormRequest
         return [
             'adoption_date' => ["date", 'required'],
             'observation' => ["string", 'required', 'min:10'],
-            'adoption_mother' => ['required','integer', new ValideFemalRabbit($this->input('adoption_mother'))],
+            'adoption_mother' => ['required','integer','exists:rabbits,id', new ValideFemalRabbit($this->input('adoption_mother'))],
             'whelping_id' => ['nullable', 'exists:whelpings,id']
         ];
     }

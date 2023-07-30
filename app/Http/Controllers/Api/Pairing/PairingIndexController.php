@@ -15,7 +15,7 @@ class PairingIndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $weanings = Pairing::with([
+        $pairings = Pairing::with([
                 'mother',
                 'father',
                 'mother.weaning',
@@ -28,7 +28,7 @@ class PairingIndexController extends Controller
             ->paginate(15);
 
         return new PairingCollectionResponse(
-            collection: $weanings
+            collection: $pairings
         );
     }
 }

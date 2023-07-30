@@ -46,6 +46,8 @@ class WhelpingController extends Controller
             $rabbit->load(
                 'rabbits',
                 'pairing',
+                'pairing.mother',
+                'pairing.father',
                 'rabbits.weaning',
                 'rabbits.adoption'
             );

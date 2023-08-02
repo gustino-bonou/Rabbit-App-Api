@@ -59,7 +59,15 @@ class RabbitController extends Controller
         if($rabbit !== null) 
         {
 
-            $rabbit->load('weaning', 'adoption', 'whelping');
+            $rabbit->load(
+                'weaning', 
+                'adoption',
+                'whelping',
+                'whelping.pairing',
+                'whelping.pairing.father', 
+                'whelping.pairing.mother',
+                'whelping.pairing.mother.whelping',
+                'whelping.pairing.mother.whelping');
 
             return response()->json(['data' => $rabbit->toArray()], status: 200);
 
@@ -69,7 +77,7 @@ class RabbitController extends Controller
         }
         else 
         {
-            return response()->json( status: 204);
+            return response()->json(['message' => "no content"], status: 204);
         }
 
         

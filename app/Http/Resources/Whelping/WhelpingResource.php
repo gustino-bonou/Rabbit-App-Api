@@ -19,12 +19,12 @@ class WhelpingResource extends JsonResource
         return [
             
             'id' => $this->id ?? '',
-            'whelping_date' => $this->whelping_date ?? '',
-            'observation' => $this->observation ?? '',
+            'whelping_date' => $this->whelping_date ?? null,
+            'observation' => $this->observation ?? null,
             'deads_kits_number' => $this->deads_kits_number,
             'kits_number' => $this-> kits_number,
-            'pairing' => PairingResource::make($this->whenLoaded('pairing')) ?? '',
-            'rabbits' => RabbitResource::collection($this->whenLoaded('rabbits')) ?? '',
+            'pairing' => PairingResource::make($this->whenLoaded('pairing')) ?? null,
+            'rabbits' => RabbitResource::collection($this->whenLoaded('rabbits')) ?? null,
         ];
     }
 }

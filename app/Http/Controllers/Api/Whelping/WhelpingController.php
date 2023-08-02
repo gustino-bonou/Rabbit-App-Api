@@ -56,7 +56,7 @@ class WhelpingController extends Controller
         }
         else
         {
-            return response()->json(['data' => null, 'message' => 'any response to your query']);
+            return response()->json(['message' => 'any response to your query'], status: 422);
         }
         
     }

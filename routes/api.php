@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\Weaning\StoreWeaningController;
 use App\Http\Controllers\Api\Weaning\WeaningIndexController;
 use App\Http\Controllers\Api\Adoption\AdoptionIndexController;
 use App\Http\Controllers\Api\Adoption\StoreAdoptionController;
+use App\Http\Controllers\Api\Rabbit\RabbitDetailController;
 use App\Http\Controllers\Api\Whelping\NearbyWhelpingController;
 use App\Http\Controllers\Api\Whelping\StoreWhelpingController;
 use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
@@ -68,7 +69,7 @@ Route::middleware('auth:sanctum')->group(function () {
     $slugRegex = '[0-9a-zA-Z\-]+';
 
         Route::get('/', RabbitIndexController::class)->name('index');
-        Route::get('/{rabbit}',[ RabbitController::class, 'show'])->name('show')->where([
+        Route::get('/{rabbit}', RabbitDetailController::class)->name('show')->where([
             'rabbit' => $idRegex
         ]);
         Route::post('/store', StoreRabbitController::class)->name('store');

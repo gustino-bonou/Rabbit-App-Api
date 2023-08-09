@@ -21,8 +21,9 @@ class NearbyWhelpingController extends Controller
         $endDate = Carbon::now()->subDays(24)->toDateString();
 
         $pairings = Pairing::with('father', 'mother')
-            ->whereBetween('pairing_date', [$startDate, $endDate])
+            //->whereBetween('pairing_date', [$startDate, $endDate])
             ->whereDoesntHave('whelping')
+            ->limit(8)
             ->get();
 
         return new PairingCollectionResponse(

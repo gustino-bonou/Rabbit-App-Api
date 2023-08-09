@@ -19,9 +19,11 @@ use App\Http\Controllers\Api\Weaning\StoreWeaningController;
 use App\Http\Controllers\Api\Weaning\WeaningIndexController;
 use App\Http\Controllers\Api\Adoption\AdoptionIndexController;
 use App\Http\Controllers\Api\Adoption\StoreAdoptionController;
+use App\Http\Controllers\Api\Pairing\RecentPairingController;
 use App\Http\Controllers\Api\Rabbit\RabbitDetailController;
 use App\Http\Controllers\Api\Whelping\NearbyWhelpingController;
 use App\Http\Controllers\Api\Whelping\StoreWhelpingController;
+use App\Http\Controllers\Api\Whelping\WhelpingDosesHaveWeaningController;
 use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
 
 
@@ -78,9 +80,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/same/father',[ RabbitController::class, 'getRabbitSameFather'])->name('same.father');
         Route::get('/{rabbit}/parents',[ RabbitController::class, 'getRabbitParents'])->name('rabbit.parents');
         Route::get('/same/parents',[ RabbitController::class, 'getRabbitSameParents'])->name('same.parents');
-        Route::get('/possible/pairing',[ RabbitController::class, 'compatibleRabbitsForPairing'])->name('compatible.for.pairing');
-        Route::get('/females',[ RabbitController::class, 'femalesRabbits'])->name('females');
-        Route::get('/males',[ RabbitController::class, 'malesRabbits'])->name('males');
+        Route::get('/possible/pairing',[ RabbitController::class, 'getNonConsanguineousRabbits'])->name('compatible.for.pairing');
+        Route::get('/possible/pairing/ancestor',[ RabbitController::class, 'getNonConsanguineousRabbitsAncestor'])->name('compatible.for.pairing');
+        Route::get('/parents/females',[ RabbitController::class, 'femalesRabbits'])->name('females');
+        Route::get('/parents/males',[ RabbitController::class, 'malesRabbits'])->name('males');
+        Route::get('/per/age',[ RabbitController::class, 'rabbitPerAge'])->name('per.age');
    
     });
 
@@ -93,6 +97,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/store', StorePairingController::class)->name('store');
 
         Route::get('/old', NearbyWhelpingController::class)->name('old.pairing');
+        Route::get('/recent', RecentPairingController::class)->name('recents.pairing');
+        Route::get('/doseshave/whelping', NearbyWhelpingController::class)->name('doseshave.whelping');
 
         Route::get('/{pairing}',[ PairingController::class, 'show'])->name('show')->where([
             'pairing' => $idRegex
@@ -121,6 +127,7 @@ Route::middleware('auth:sanctum')->group(function () {
             'whelping' => $idRegex
         ]);
         Route::post('/store', StoreWhelpingController::class)->name('store');
+        Route::get('/doseshave/weaning', WhelpingDosesHaveWeaningController::class)->name('doseshave.weaning');
 
     });
 

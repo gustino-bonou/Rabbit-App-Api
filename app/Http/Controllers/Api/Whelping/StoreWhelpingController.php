@@ -17,12 +17,19 @@ class StoreWhelpingController extends Controller
      */
     public function __invoke(WhelpingRequest $request)
     {
+        $deadNumber = $request->validated('deads_kits_number');
+
+        if($deadNumber === null )
+        {
+            $deadNumber = 0;
+        }
+
         $dto = new WhelpingData(
             observation: $request->validated('observation'),
             whelpingDate: $request->validated('whelping_date'),
             pairingId: $request->validated('pairing_id'),
             farmId: $request->user()->farm_id,
-            deadsKitsNumber:  $request->validated('deads_kits_number'),
+            deadsKitsNumber:  $deadNumber,
             kitsNumber:  $request->validated('kits_number'),
         );
 

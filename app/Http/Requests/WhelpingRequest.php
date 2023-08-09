@@ -29,8 +29,8 @@ class WhelpingRequest extends FormRequest
                 "observation" => ['required', 'string', 'min:5'],
                 'whelping_date' => ['date', 'required'],
                 'deads_kits_number' => ['integer', 'nullable'],
-                'kits_number' => ['integer', 'nullable'],
-                'pairing_id' => ['integer', 'exists:pairings,id', new CheckExistenceWhelping($this->input('pairing_id'))],
+                'kits_number' => ['integer', 'required'],
+                'pairing_id' => ['integer', 'required', 'exists:pairings,id', new CheckExistenceWhelping($this->input('pairing_id'))],
             ];
 
     }

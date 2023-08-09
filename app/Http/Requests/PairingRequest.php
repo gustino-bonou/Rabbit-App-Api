@@ -26,7 +26,7 @@ class PairingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pairing_date' => ["date", 'required'],
+            'pairing_date' => ['required'],
             'observation' => ["string", 'required', 'min:10'],
             'father_id' => ['required','integer','exists:rabbits,id',  new ValideRabbitsInPairing($this->input('father_id'))],
             'mother_id' => ['required','integer', 'exists:rabbits,id', new ValideFemalRabbit($this->input('mother_id'))],

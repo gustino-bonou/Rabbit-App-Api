@@ -22,7 +22,7 @@ class WhelpingIndexController extends Controller
                     'pairing.father',
                     'rabbits'
                 ])
-                ->paginate(15)
+                ->get()
             );
     }
 }

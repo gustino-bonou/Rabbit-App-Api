@@ -26,7 +26,8 @@ class Rabbit extends Model
         'whelping_date',
         'adoption_id',
         'whelping_id',
-        'weaning_id'
+        'weaning_id',
+        'isParent',
     ];
 
 

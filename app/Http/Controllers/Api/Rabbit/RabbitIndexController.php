@@ -18,13 +18,11 @@ class RabbitIndexController extends Controller
     public function __invoke(Request $request): RabbitCollectionResponse
     {
 
-        
-
         return new RabbitCollectionResponse(
 
             collection: Rabbit::with(['weaning', 'whelping', 'adoption'])
                 ->orderBy('created_at', 'desc')
-                ->paginate(15)
+                ->paginate(10)
         );
 
     }

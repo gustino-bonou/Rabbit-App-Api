@@ -43,9 +43,9 @@ class WeaningController extends Controller
         if($weaning !== null)
         {
             $weaning->load(
-                'rabbits',
                 'adoption',
-                'whelping',
+                'whelping.pairing.mother',
+                'whelping.pairing.father',
                 'rabbits.adoption',
                 'whelping.rabbits'
             );

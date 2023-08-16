@@ -23,7 +23,6 @@ class NearbyWhelpingController extends Controller
         $pairings = Pairing::with('father', 'mother')
             //->whereBetween('pairing_date', [$startDate, $endDate])
             ->whereDoesntHave('whelping')
-            ->limit(8)
             ->get();
 
         return new PairingCollectionResponse(

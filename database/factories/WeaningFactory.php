@@ -3,7 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Adoption;
+use App\Models\Weaning;
 use App\Models\Whelping;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,16 +20,28 @@ class WeaningFactory extends Factory
      */
     public function definition(): array
     {
-        return [
+
+        $whelpingIds = Whelping::whereDoesntHave('weaning')->pluck('id')->toArray();
+
+        $whelping = Whelping::find($this->faker->randomElement($whelpingIds));
+
+            $daysToAdd = rand(30, 35); 
+
+            $newDate = Carbon::parse($whelping->whelping_date)->addDays($daysToAdd);
+
+
+
+            return [
+
             'observation' => $this->faker->sentence,
             
-            'whelping_id' => function () {
-            return $this->faker->randomElement(Whelping::all()->pluck('id'));;
-        },
-        'adoption_id' => function () {
-            return $this->faker->randomElement(Adoption::limit(20)->pluck('id'));
-        },
-        'weaning_date' => $this->faker->dateTimeBetween('-2 years', '-1 year'),
-        ];
+            'whelping_id' => $whelping->id,
+
+            'weaning_date' => $newDate,
+
+            'farm_id' => 1,
+            ];
+
+        
     }
 }

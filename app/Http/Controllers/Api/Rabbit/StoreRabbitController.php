@@ -23,6 +23,7 @@ class StoreRabbitController extends Controller
 
             $whelping_date = $whelping->whelping_date;
         }
+        
         else 
         {
             $whelping_date = $request->validated('whelping_date');

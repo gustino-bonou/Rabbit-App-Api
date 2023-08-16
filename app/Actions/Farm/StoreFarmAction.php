@@ -24,7 +24,10 @@ class StoreFarmAction
 
         $user->farm_id = $farm->id;
 
+        $farm->user_id = $user->id;
+
         $user->save();
+        $farm->save();
 
         return $farm;
     }

@@ -23,6 +23,16 @@ class Weaning extends Model
         'adoption_id'
     ];
 
+        public function getWeaningDateAttribute($value)
+    {
+        return  \Carbon\Carbon::parse($value)->toDateTimeString();
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return  \Carbon\Carbon::parse($value)->toDateTimeString();
+    }
+
 
 
     protected static function booted()

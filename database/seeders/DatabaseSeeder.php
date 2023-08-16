@@ -4,16 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Adoption;
-use App\Models\Farm;
-use App\Models\Pairing;
-use App\Models\Rabbit;
-use App\Models\User;
-use App\Models\Weaning;
-use App\Models\Whelping;
+
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\App;
-use Database\Factories\RabbitFactory;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,9 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-       /*  Whelping::factory()->count(50)->create(); */
+        //$number = Whelping::whereDoesntHave('weaning')->count();
 
-    Adoption::factory()->count(2)->create();
+        //Mortality::factory()->count(63)->create();
 
     }
 

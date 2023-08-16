@@ -27,6 +27,7 @@ class RabbitFactory extends Factory
             'image' => $this->faker->imageUrl(),
             'gender' => $gender,
             'whelping_date' => $this->faker->dateTimeBetween('-1 years', 'now'),
+            'farm_id' => 1,
         ];
     }
     

@@ -9,22 +9,29 @@ use App\Http\Controllers\Api\Pairing\PairingController;
 use App\Http\Controllers\Api\Weaning\WeaningController;
 use App\Http\Controllers\Api\Adoption\AdoptionController;
 use App\Http\Controllers\Api\Farm\RegisterFarmController;
+use App\Http\Controllers\Api\Rabbit\DiedRabbitController;
 use App\Http\Controllers\Api\User\RegistreUserController;
 use App\Http\Controllers\Api\Whelping\WhelpingController;
 use App\Http\Controllers\Api\Rabbit\RabbitIndexController;
 use App\Http\Controllers\Api\Rabbit\StoreRabbitController;
+use App\Http\Controllers\Api\Rabbit\RabbitDetailController;
 use App\Http\Controllers\Api\Pairing\PairingIndexController;
 use App\Http\Controllers\Api\Pairing\StorePairingController;
 use App\Http\Controllers\Api\Weaning\StoreWeaningController;
 use App\Http\Controllers\Api\Weaning\WeaningIndexController;
+use App\Http\Controllers\Api\Pairing\RecentPairingController;
 use App\Http\Controllers\Api\Adoption\AdoptionIndexController;
 use App\Http\Controllers\Api\Adoption\StoreAdoptionController;
-use App\Http\Controllers\Api\Pairing\RecentPairingController;
-use App\Http\Controllers\Api\Rabbit\RabbitDetailController;
-use App\Http\Controllers\Api\Whelping\NearbyWhelpingController;
+use App\Http\Controllers\Api\Mortality\MortalityIndexController;
 use App\Http\Controllers\Api\Whelping\StoreWhelpingController;
-use App\Http\Controllers\Api\Whelping\WhelpingDosesHaveWeaningController;
 use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
+use App\Http\Controllers\Api\Whelping\NearbyWhelpingController;
+use App\Http\Controllers\Api\Weaning\WeaningInMonthIndexController;
+use App\Http\Controllers\Api\Whelping\HaveWeaningWhelpingController;
+use App\Http\Controllers\Api\Whelping\WhelpingInMonthIndexController;
+use App\Http\Controllers\Api\Pairing\HaveWhelpingPairingIndexController;
+use App\Http\Controllers\Api\Whelping\WhelpingDosesHaveWeaningController;
+use App\Http\Controllers\Api\Pairing\DosesHaveWhelpingPairingIndexController;
 
 
 /*
@@ -40,6 +47,7 @@ use App\Http\Controllers\Api\Whelping\WhelpingIndexController;
 
 
 Route::post('/register', RegistreUserController::class)
+
     ->middleware('guest')->name('user.register');
 
     
@@ -85,6 +93,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/parents/females',[ RabbitController::class, 'femalesRabbits'])->name('females');
         Route::get('/parents/males',[ RabbitController::class, 'malesRabbits'])->name('males');
         Route::get('/per/age',[ RabbitController::class, 'rabbitPerAge'])->name('per.age');
+        Route::get('/doses/not/have/weaning',[ RabbitController::class, 'dosesNotHaveWeaning'])->name('doses.not.weaning');
+        Route::get('/have/weaning',[ RabbitController::class, 'haveWeaning'])->name('have.weaning');
+        Route::get('/sold',[ RabbitController::class, 'soldRabbitIndex'])->name('sold');
+        Route::get('/died', MortalityIndexController::class)->name('died');
    
     });
 
@@ -95,10 +107,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', PairingIndexController::class)->name('pairings.index');
 
         Route::post('/store', StorePairingController::class)->name('store');
-
-        Route::get('/old', NearbyWhelpingController::class)->name('old.pairing');
-        Route::get('/recent', RecentPairingController::class)->name('recents.pairing');
-        Route::get('/doseshave/whelping', NearbyWhelpingController::class)->name('doseshave.whelping');
+ 
+        Route::get('/in/month', RecentPairingController::class)->name('recents.pairing');
+        Route::get('/doseshave/whelping', DosesHaveWhelpingPairingIndexController::class)->name('doseshave.whelping');
+        Route::get('/have/whelping', HaveWhelpingPairingIndexController::class)->name('have.whelping');
 
         Route::get('/{pairing}',[ PairingController::class, 'show'])->name('show')->where([
             'pairing' => $idRegex
@@ -111,6 +123,7 @@ Route::middleware('auth:sanctum')->group(function () {
         $slugRegex = '[0-9a-zA-Z\-]+';
 
         Route::get('/', WeaningIndexController::class)->name('weanings.index');
+        Route::get('/in/month', WeaningInMonthIndexController::class)->name('weanings.in.month');
         
         Route::get('/{weaning}',[ WeaningController::class, 'show'])->name('show')->where([
             'weaning' => $idRegex
@@ -123,11 +136,14 @@ Route::middleware('auth:sanctum')->group(function () {
         $slugRegex = '[0-9a-zA-Z\-]+';
 
         Route::get('/', WhelpingIndexController::class)->name('whelpings.index');
+
+        Route::get('/in/month', WhelpingInMonthIndexController::class)->name('whelpings.in.month');
         Route::get('/{whelping}',[ WhelpingController::class, 'show'])->name('show')->where([
             'whelping' => $idRegex
         ]);
         Route::post('/store', StoreWhelpingController::class)->name('store');
         Route::get('/doseshave/weaning', WhelpingDosesHaveWeaningController::class)->name('doseshave.weaning');
+        Route::get('/have/weaning', HaveWeaningWhelpingController::class)->name('have.weaning');
 
     });
 

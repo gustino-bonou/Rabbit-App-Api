@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pairing extends Model
 {
@@ -32,6 +33,16 @@ class Pairing extends Model
         static::addGlobalScope(new GlobalFarmScope());
     }
 
+        public function getPairingDateAttribute($value)
+    {
+        return  \Carbon\Carbon::parse($value)->toDateTimeString();
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return  \Carbon\Carbon::parse($value)->toDateTimeString();
+    }
+
 
     public function farm(): BelongsTo
     {
@@ -51,6 +62,12 @@ class Pairing extends Model
     {
         return $this->hasOne(Whelping::class);
     }
+
+    public function palpations(): HasMany
+    {
+        return $this->hasMany(Palpation::class);
+    }
+
 
     public function verifiedExistence()
     {

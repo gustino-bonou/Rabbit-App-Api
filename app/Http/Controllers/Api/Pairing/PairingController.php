@@ -48,11 +48,9 @@ class PairingController extends Controller
         {
             $pairing->load(
                 'mother.whelping',
-                'mother.weaning',
                 'mother.adoption',
                 'father.whelping',
-                'father.whelping',
-                'father.whelping'
+                'father.adoption',
             );
             return new PairingResource($pairing);
         }

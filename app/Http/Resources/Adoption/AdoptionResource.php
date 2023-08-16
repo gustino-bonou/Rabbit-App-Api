@@ -18,9 +18,9 @@ class AdoptionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id ?? '',
+            'id' => $this->id,
             'adoption_date' => $this->adoption_date ?? '',
-            'observation' => $this->observation ?? '',
+            'observation' => $this->observation,
             'mother' => RabbitResource::make($this->whenLoaded('adoptiveMother')) ?? '',
             'whelping' => WhelpingResource::make($this->whenLoaded('whelping')) ?? '',
             'rabbits' => RabbitResource::collection($this->whenLoaded('rabbits')) ?? ''

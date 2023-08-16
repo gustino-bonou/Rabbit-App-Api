@@ -15,7 +15,7 @@ class GlobalFarmScope implements Scope
         $user = auth()->user();
 
 
-        if ($user && $user->farm->id) {
+        if ($user && $user->farm != null) {
             $builder->where('farm_id', $user->farm->id);
         } else {
             return response()->json(['message' => 'Accès refusé ']);

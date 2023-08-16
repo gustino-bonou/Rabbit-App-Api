@@ -43,8 +43,6 @@ class RegistreUserRequest extends FormRequest
         ];
     }
 
-    
-
     public function failedValidation(Validator $validator)
     {
 

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Str;
 
 class Rabbit extends Model
@@ -39,6 +40,19 @@ class Rabbit extends Model
         
         static::addGlobalScope(new GlobalFarmScope());
     }
+
+    public function getWhelpingDateAttribute($value)
+    {
+        return  \Carbon\Carbon::parse($value)->toDateTimeString();
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return  \Carbon\Carbon::parse($value)->toDateTimeString();
+    }
+ 
+    
+
 
 
     public function farm(): BelongsTo
@@ -70,6 +84,16 @@ class Rabbit extends Model
     public function whelping(): BelongsTo
     {
         return $this->belongsTo(Whelping::class);
+    }
+
+    public function mortality() : HasOne
+    {
+        return $this->hasOne(Mortality::class);
+    }
+
+    public function sale() : HasOne
+    {
+        return $this->hasOne(Sale::class);
     }
 
     public function getSlug(): string 

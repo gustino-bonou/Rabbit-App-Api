@@ -45,11 +45,8 @@ class WhelpingController extends Controller
         {
             $rabbit->load(
                 'rabbits',
-                'pairing',
-                'pairing.mother',
-                'pairing.father',
-                'rabbits.weaning',
-                'rabbits.adoption'
+                'pairing.mother.whelping',
+                'pairing.father.whelping',
             );
 
             return new WhelpingResource(resource: $rabbit);

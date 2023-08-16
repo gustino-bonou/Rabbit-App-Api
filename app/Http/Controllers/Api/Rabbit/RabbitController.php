@@ -190,31 +190,102 @@ class RabbitController extends Controller
         ->paginate(15)->load('whelping', 'weaning', 'adoption');
 
         return new RabbitCollection($rabbits);
-                    
+                
     }
 
-    public function femalesRabbits()
+
+
+    public function femalesRabbits(GetRabbitByCategoryRequest $request)
     {
 
-        $rabbits = Rabbit::where('gender', 'Femelle')
+        $query = Rabbit::where('gender', 'Femelle')
             ->where('isParent', 1)
             ->with('whelping', 'weaning', 'adoption')
-            ->orderBy('whelping_date', 'desc')
-            ->get();
+            ->orderBy('whelping_date', 'desc');
+
+            $minMonth = $request->validated('min_month');
+        $maxMonth = $request->validated('max_month');
+
+
+        // Filtrage des lapins en fonction de minMonth
+        if (!is_null($minMonth)) {
+            $minDate = Carbon::now()->subMonths($minMonth)->startOfDay();
+            $query->where('whelping_date', '<=', $minDate);
+        }
+
+
+        // Filtrage des lapins en fonction de maxMonth
+        if (!is_null($maxMonth)) {
+            $maxDate = Carbon::now()->subMonths($maxMonth)->endOfDay();
+            $query->where('whelping_date', '>=', $maxDate);
+        }
+
+        $rabbits = $query->paginate(15);
 
         return new RabbitCollection(resource: $rabbits);
     }
 
-    public function malesRabbits()
+    public function malesRabbits(GetRabbitByCategoryRequest $request)
     {
-        $rabbits = Rabbit::where('gender', 'Mal')
-            ->where('isParent', 1)
+
+
+        $query = Rabbit::where('isParent', 1)
+            ->where('gender', 'Mal')
             ->with('whelping', 'weaning', 'adoption')
-            ->orderBy('whelping_date', 'desc')
-            ->get();
+            ->orderBy('whelping_date', 'desc');
+
+
+        $minMonth = $request->validated('min_month');
+        $maxMonth = $request->validated('max_month');
+
+
+        // Filtrage des lapins en fonction de minMonth
+        if (!is_null($minMonth)) {
+            $minDate = Carbon::now()->subMonths($minMonth)->startOfDay();
+            $query->where('whelping_date', '<=', $minDate);
+        }
+
+
+        // Filtrage des lapins en fonction de maxMonth
+        if (!is_null($maxMonth)) {
+            $maxDate = Carbon::now()->subMonths($maxMonth)->endOfDay();
+            $query->where('whelping_date', '>=', $maxDate);
+        }
+
+        $rabbits = $query->paginate(15);
 
         return new RabbitCollection(resource: $rabbits);
     }
+
+    public function soldRabbitIndex(GetRabbitByCategoryRequest $request)
+    {
+
+
+        $query = Rabbit::where('isSold', 1);
+
+        $minMonth = $request->validated('min_month');
+        $maxMonth = $request->validated('max_month');
+
+
+        // Filtrage des lapins en fonction de minMonth
+        if (!is_null($minMonth)) {
+            $minDate = Carbon::now()->subMonths($minMonth)->startOfDay();
+            $query->where('sold_date', '<=', $minDate);
+        }
+
+
+        // Filtrage des lapins en fonction de maxMonth
+        if (!is_null($maxMonth)) {
+            $maxDate = Carbon::now()->subMonths($maxMonth)->endOfDay();
+            $query->where('sold_date', '>=', $maxDate);
+        }
+
+
+        $rabbits = $query->paginate(15);
+
+        return new RabbitCollection(resource: $rabbits);
+    }
+
 
     public function rabbitPerAge(GetRabbitByCategoryRequest $request)
     {
@@ -222,8 +293,7 @@ class RabbitController extends Controller
         $maxMonth = $request->validated('max_month');
 
         $query = Rabbit::where('isParent', 0)
-            ->with('weaning', 'whelping')
-            ->orderBy('whelping_date', 'desc');
+            ->orderBy('created_at', 'desc');
 
         // Filtrage des lapins en fonction de minMonth
         if (!is_null($minMonth)) {
@@ -239,7 +309,7 @@ class RabbitController extends Controller
         }
 
 
-        $rabbits = $query->get();
+        $rabbits = $query->paginate(15);
 
         return new RabbitCollection(resource: $rabbits);
 
@@ -258,7 +328,7 @@ class RabbitController extends Controller
             $builder->where('id', '=', $motherId);
         })
         ->where('gender', '!=', $rabbit->gender)
-        ->get();
+        ->paginate(15);
 
         return new RabbitCollection($rabbits);
                     
@@ -282,7 +352,7 @@ class RabbitController extends Controller
 
             ->where('gender', '!=', $rabbit->gender)
 
-            ->get();
+            ->paginate(15);
 
         return new RabbitCollection($rabbits);
     }
@@ -338,10 +408,79 @@ class RabbitController extends Controller
                 });
             })
             ->where('gender', '!=', $rabbit->gender)
-            ->get();
+            ->paginate(15);
         
             return new RabbitCollection($rabbits);
         
+    }
+
+
+
+    function dosesNotHaveWeaning(GetRabbitByCategoryRequest $request)
+    {
+        $query = Rabbit::with('whelping.pairing.mother', 'whelping.pairing.father')->whereHas('whelping', function (Builder $query) {
+            $query->whereDoesntHave('weaning');
+        })
+        ->where('isParent', 0);
+
+
+        $minMonth = $request->validated('min_month');
+        $maxMonth = $request->validated('max_month');
+
+
+        // Filtrage des lapins en fonction de minMonth
+        if (!is_null($minMonth)) {
+            $minDate = Carbon::now()->subDays($minMonth)->startOfDay();
+            $query->where('whelping_date', '<=', $minDate);
+        }
+
+
+        // Filtrage des lapins en fonction de maxMonth
+        if (!is_null($maxMonth)) {
+            $maxDate = Carbon::now()->subDays($maxMonth);
+            $query->where('whelping_date', '>=', $maxDate);
+        }
+
+
+        $rabbits = $query->paginate(15);
+
+        return new RabbitCollectionResponse(
+            collection: $rabbits
+        );
+
+    }
+
+    function haveWeaning(GetRabbitByCategoryRequest $request)
+    {
+        $query = Rabbit::with('whelping.pairing.mother', 'whelping.pairing.father')->whereHas('whelping', function (Builder $query) {
+            $query->whereHas('weaning');
+        })
+        ->where('isParent', 0);
+
+        $minMonth = $request->validated('min_month');
+        $maxMonth = $request->validated('max_month');
+
+
+        // Filtrage des lapins en fonction de minMonth
+        if (!is_null($minMonth)) {
+            $minDate = Carbon::now()->subMonths($minMonth)->startOfDay();
+            $query->where('whelping_date', '<=', $minDate);
+        }
+
+
+        // Filtrage des lapins en fonction de maxMonth
+        if (!is_null($maxMonth)) {
+            $maxDate = Carbon::now()->subMonths($maxMonth);
+            $query->where('whelping_date', '>=', $maxDate);
+        }
+
+
+        $rabbits = $query->paginate(15);
+
+        return new RabbitCollectionResponse(
+            collection: $rabbits
+        );
+
     }
 
     function haveCommonParents(Rabbit $rabbit1, Rabbit $rabbit2): bool

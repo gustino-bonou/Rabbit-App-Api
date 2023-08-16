@@ -72,7 +72,7 @@ class RegistreUserController extends Controller
                 "message" => "Data not valid",
                 "errorsList" => $e->getMessage()
             ], 422));
-            }
+        }
         
     }
 }

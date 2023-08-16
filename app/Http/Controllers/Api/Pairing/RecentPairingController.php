@@ -16,7 +16,7 @@ class RecentPairingController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $dateLimite = Carbon::now()->subDays(45); 
+        $dateLimite = Carbon::now()->subDays(40); 
 
         
         $pairings = Pairing::with('mother', 'father')->whereDate('pairing_date', '>=', $dateLimite)->get();
